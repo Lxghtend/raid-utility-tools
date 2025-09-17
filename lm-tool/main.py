@@ -661,6 +661,22 @@ class UtilityTab(QWidget):
         self.utility_group_layout.addWidget(self.utility_group)
         # ---------------------------------- #
 
+        # ----- Find 4v4 Cheats Button ----- #
+        find_cheats_button = QPushButton("Find 4v4 Cheats")
+
+        find_cheats_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred
+        )
+
+        #find_cheats_button.setMaximumHeight(50)
+        #find_cheats_button.setMinimumHeight(50)
+
+        find_cheats_button.clicked.connect(lambda: asyncio.create_task(self.handle_find_cheats()))
+
+        self.utility_tab_layout.addWidget(find_cheats_button)
+        # -------------------------------- #
+
         # ----- Auto Dialogue Button ----- #
         auto_dialogue_button = QPushButton("Toggle Auto Dialogue")
 
@@ -757,6 +773,12 @@ class UtilityTab(QWidget):
         self.utility_tab_layout.addWidget(copy_position_button)
         # ------------------------------- #
 
+    async def handle_find_cheats(self):
+        print("[UTILITY] Find 4v4 Cheats pressed.")
+
+        if cheats := await self.utils.find_cheats():
+            print(f"[UTILITY] Cheats: {cheats}")
+            
     async def toggle_auto_dialogue(self):
         print("[UTILITY] Auto Dialogue pressed.")
         

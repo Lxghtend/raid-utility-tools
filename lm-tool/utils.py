@@ -185,3 +185,36 @@ class Utils():
                 await client.teleport(original_location)
 
             print(f"{client.title} grabbed {entity_name}.")
+
+    async def find_cheats(self) -> list[str] | None:
+        client = self.foreground_client
+
+        entity_roles = {
+        "GR_LM_Horse_MustangFencerF_A_01": "🌩️ Trap ",
+        "GR_LM_Horse_MustangFencerF_A_02": "🌩️ DoT ",
+        "GR_LM_Horse_MustangFencerF_A_03": "🌩️ Shield ",
+        "GR_LM_Crab_Thug_A_01":         "❄️ HoT ",
+        "GR_LM_Crab_Thug_A_02":         "❄️ Blade ",
+        "GR_LM_Crab_Thug_A_03":         "❄️ DoT ",
+        "GR_LM_Roach_Lieutenant_A_01":  "👁️ Blade ",
+        "GR_LM_Roach_Lieutenant_A_02":  "👁️ Weakness ",
+        "GR_LM_Roach_Lieutenant_A_03":  "👁️ HoT ",
+        "GR_LM_Ophidian_Thug_A_01":     "💀 DoT ",
+        "GR_LM_Ophidian_Thug_A_02":     "💀 HoT ",
+        "GR_LM_Ophidian_Thug_A_03":     "💀 Trap ",
+        }
+
+        if client:
+            announcements = []
+            entity_list = await client.get_base_entity_list()
+            for entity_name, announcement in entity_roles.items():
+                for ent in entity_list:
+                    if await ent.object_name() == entity_name:
+                        announcements.append(announcement)
+                        break
+
+            if not announcements:
+                print(f"{client.title} is not in range of entities required to find cheats.")
+                return None
+
+            return announcements
