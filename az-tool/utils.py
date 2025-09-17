@@ -7,7 +7,6 @@ from wizwalker.constants import Keycode
 from wizwalker.errors import ReadingEnumFailed
 from wizwalker import ClientHandler, Client, XYZ
 from wizwalker.memory import Window, MemoryReader
-from wizwalker.memory.memory_objects.enums import WindowFlags
 from wizwalker.memory.memory_objects.fish import FishStatusCode
 
 from worlds_collide import WorldsCollideTP
@@ -500,3 +499,83 @@ class Utils():
             
             except ReadingEnumFailed:
                 pass
+
+    async def catch_all_fish(self):
+        client = self.foreground_client
+
+        schools = {
+        "Fire": 0, 
+        "Storm": 0, 
+        "Myth": 0, 
+        "Death": 0, 
+        "Ice": 0
+        }
+
+        if client:
+            print(f"[FISH] Catching all fish.")
+            fishing_manager = await client.game_client.fishing_manager()
+            if len(await fishing_manager.fish_list()) == 0:
+                print(f"[FISH] No fish found.")
+                return
+            
+            accepted_fish = []
+
+            for fish in await fishing_manager.fish_list():
+                fish_temp = await fish.template()
+
+                fish_is_accepted = False
+
+                if ((fish_school := await fish_temp.school_name()) in schools.keys()):# and (await fish.is_chest() == True):
+                    if schools[fish_school] < 5:
+                        schools[fish_school] += 1
+                        fish_is_accepted = True
+                        accepted_fish.append(fish)
+
+                if not fish_is_accepted:
+                    await fish.write_status_code(FishStatusCode.escaped)
+
+            print(f"{client.title} found fish:\n{schools}")
+
+            while len(await fishing_manager.fish_list()) > 0:
+                fish_windows = await client.root_window.get_windows_with_name("FishingWindow")
+                while len(fish_windows) == 0:
+                    async with client.mouse_handler:
+                        await client.mouse_handler.click_window_with_name("OpenFishingButton")
+                    fish_windows = await client.root_window.get_windows_with_name("FishingWindow")
+
+                fish_window: Window = fish_windows[0]
+                fish_sub_window = await fish_window.get_child_by_name("FishingSubWindow")
+                bottomframe = await fish_sub_window.get_child_by_name("BottomFrame")
+                icon1 = await bottomframe.get_child_by_name("Icon1")
+                async with client.mouse_handler:
+                    await client.mouse_handler.click_window(icon1)
+
+                is_hooked = False
+                while not is_hooked:
+                    statuses = await asyncio.gather(*[fish.status_code() for fish in accepted_fish])
+                    for status in statuses:
+                        if status == FishStatusCode.unknown2:
+                            is_hooked = True
+                            break
+                    await asyncio.sleep(0.1)
+
+                if is_hooked:
+                    await client.send_key(Keycode.SPACEBAR)
+
+                fish_failed = False
+                timeout = time.time()
+                while len(await client.root_window.get_windows_with_name("CaughtFishModalWindow")) == 0:
+                    if time.time() - timeout >= 10:
+                        fish_failed = True
+                        break
+                
+                if fish_failed:
+                    continue
+
+                while len(await client.root_window.get_windows_with_name("CaughtFishModalWindow")) > 0:
+                    await client.send_key(Keycode.SPACEBAR)
+                    await asyncio.sleep(0.1)
+
+                await asyncio.sleep(0.5)
+
+            print(f"{client.title} completed catching all fish.")

@@ -362,6 +362,8 @@ class FishTab(QWidget):
         self.fish_hooking_tasks = {} # client: task
         self.fish_hooks = {} # client: oldbytes
 
+        self.catch_all_fish_task = None
+
         # ----- Creating Layout ----- #
         self.fish_tab_layout = QVBoxLayout()
         self.setLayout(self.fish_tab_layout)
@@ -563,6 +565,22 @@ class FishTab(QWidget):
         self.catch_fish_group_layout.addWidget(death_fish_button)
         # ---------------------------------- #
 
+        # ----- Catch All Fish Button ----- #
+        all_fish_button = QPushButton("All")
+
+        all_fish_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+        
+        #all_fish_button.setMaximumHeight(50)
+        all_fish_button.setMinimumHeight(50)
+
+        all_fish_button.clicked.connect(lambda: asyncio.create_task(self.catch_all_fish()))
+
+        self.catch_fish_group_layout.addWidget(all_fish_button)
+        # ---------------------------------- #
+
         # ----- East Fish Collector Button ----- #
         east_fish_collector_button = QPushButton("East")
 
@@ -720,6 +738,17 @@ class FishTab(QWidget):
         print(f"[FISH] Catch Death Fish pressed.")
 
         await self.utils.catch_fish("Death")
+
+    async def catch_all_fish(self):
+        print(f"[FISH] Catch All Fish pressed.")
+
+        if not self.catch_all_fish_task:
+            self.catch_all_fish_task = asyncio.create_task(self.utils.catch_all_fish())
+            return
+        
+        if self.catch_all_fish_task:
+            self.catch_all_fish_task.cancel()
+            print("[FISH] Cancelled catching all fish.")
 
     async def east_fish_collector_teleport(self):
         print(f"[FISH] East Fish Collector teleport pressed.")
