@@ -1039,11 +1039,11 @@ class DrumsTab(QWidget):
     async def auto_drums(self):
         print("[DRUMS] Auto Drums pressed.")
         
-        if self.auto_drums_task is None:
+        if not self.auto_drums_task:
             self.auto_drums_task = asyncio.create_task(self.utils.auto_raid_drums())
             return
         
-        if self.auto_drums_task is not None:
+        if self.auto_drums_task:
             self.auto_drums_task.cancel()
             self.auto_drums_task = None
 
@@ -1350,12 +1350,12 @@ class UtilityTab(QWidget):
     async def toggle_freecam(self):
         print("[UTILITY] Freecam pressed.")
 
-        if self.freecam_task is None:
+        if not self.freecam_task:
             if self.hooked_clients:
                 self.freecam_task = asyncio.create_task(self.utils.handle_freecam())
                 return
         
-        if self.freecam_task is not None:
+        if self.freecam_task:
             self.freecam_task.cancel()
             self.freecam_task = None
             print(f"[TOGGLE] Freecam cancelled.") # i dont like this here but i was forced to
@@ -1363,10 +1363,10 @@ class UtilityTab(QWidget):
     async def handle_freecam_teleport(self):
         print("[UTILITY] Freecam Teleport pressed.")
 
-        if self.freecam_task is None:
+        if not self.freecam_task:
             print(f"[UTILITY] Freecam is not active.")
 
-        if self.freecam_task is not None:
+        if self.freecam_task:
             self.freecam_task.cancel()
         
             camera_pos = await self.freecam_task
