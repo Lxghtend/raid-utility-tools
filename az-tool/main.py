@@ -717,30 +717,54 @@ class FishTab(QWidget):
     async def catch_storm_fish(self):
         print(f"[FISH] Catch Storm Fish pressed.")
 
+        if not self.fish_hooks:
+            print(f"[FISH] Fish hooks are not active.")
+            return
+
         await self.utils.catch_fish("Storm")
 
     async def catch_fire_fish(self):
         print(f"[FISH] Catch Fire Fish pressed.")
+
+        if not self.fish_hooks:
+            print(f"[FISH] Fish hooks are not active.")
+            return
 
         await self.utils.catch_fish("Fire")
 
     async def catch_ice_fish(self):
         print(f"[FISH] Catch Ice Fish pressed.")
 
+        if not self.fish_hooks:
+            print(f"[FISH] Fish hooks are not active.")
+            return
+
         await self.utils.catch_fish("Ice")
 
     async def catch_myth_fish(self):
         print(f"[FISH] Catch Myth Fish pressed.")
+
+        if not self.fish_hooks:
+            print(f"[FISH] Fish hooks are not active.")
+            return
 
         await self.utils.catch_fish("Myth")
 
     async def catch_death_fish(self):
         print(f"[FISH] Catch Death Fish pressed.")
 
+        if not self.fish_hooks:
+            print(f"[FISH] Fish hooks are not active.")
+            return
+        
         await self.utils.catch_fish("Death")
 
     async def catch_all_fish(self):
         print(f"[FISH] Catch All Fish pressed.")
+
+        if not self.fish_hooks:
+            print(f"[FISH] Fish hooks are not active.")
+            return
 
         if not self.catch_all_fish_task:
             self.catch_all_fish_task = asyncio.create_task(self.utils.catch_all_fish())
