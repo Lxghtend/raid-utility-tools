@@ -1047,6 +1047,110 @@ class DrumsTab(QWidget):
             self.auto_drums_task.cancel()
             self.auto_drums_task = None
 
+class TokensTab(QWidget):
+    def __init__(self, utils: Utils, hooked_clients: list):
+        super().__init__()
+        self.utils = utils
+        self.hooked_clients = hooked_clients
+
+        # ----- Creating Layout ----- #
+        self.tokens_tab_layout = QVBoxLayout()
+        self.setLayout(self.tokens_tab_layout)
+        # --------------------------- #
+
+        # ----- Creating Chest Group ----- #
+        self.tokens_group = QGroupBox("Tokens")
+        self.tokens_group_layout = QVBoxLayout()
+        # -------------------------------- #
+
+        # ----- Read Tokens Button ----- #
+        read_tokens_button = QPushButton("Read Tokens")
+
+        read_tokens_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+        
+        #read_tokens_button.setMaximumHeight(50)
+        read_tokens_button.setMinimumHeight(50)
+
+        read_tokens_button.clicked.connect(lambda: asyncio.create_task(self.handle_token_reading()))
+
+        self.tokens_group_layout.addWidget(read_tokens_button)
+        # ------------------------------------ #
+
+        # ----- Wildlife Coin Teleport Button ----- #
+        wildlife_coin_teleport_button = QPushButton("Wildlife Coin Teleport")
+
+        wildlife_coin_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+        
+        #wildlife_coin_teleport_button.setMaximumHeight(50)
+        wildlife_coin_teleport_button.setMinimumHeight(50)
+
+        wildlife_coin_teleport_button.clicked.connect(lambda: asyncio.create_task(self.handle_wildlife_coin_teleport()))
+
+        self.tokens_group_layout.addWidget(wildlife_coin_teleport_button)
+        # ------------------------------------ #
+
+        # ----- Elements Coin Teleport Button ----- #
+        elements_coin_teleport_button = QPushButton("Elements Coin Teleport")
+
+        elements_coin_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+        
+        #elements_coin_teleport_button.setMaximumHeight(50)
+        elements_coin_teleport_button.setMinimumHeight(50)
+
+        elements_coin_teleport_button.clicked.connect(lambda: asyncio.create_task(self.handle_elements_coin_teleport()))
+
+        self.tokens_group_layout.addWidget(elements_coin_teleport_button)
+        # ------------------------------------ #
+
+        # ----- Cosmic Coin Teleport Button ----- #
+        cosmic_coin_teleport_button = QPushButton("Cosmic Coin Teleport")
+
+        cosmic_coin_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+        
+        #cosmic_coin_teleport_button.setMaximumHeight(50)
+        cosmic_coin_teleport_button.setMinimumHeight(50)
+
+        cosmic_coin_teleport_button.clicked.connect(lambda: asyncio.create_task(self.handle_cosmic_coin_teleport()))
+
+        self.tokens_group_layout.addWidget(cosmic_coin_teleport_button)
+        # ------------------------------------ #
+
+        self.tokens_group.setLayout(self.tokens_group_layout)
+        self.tokens_tab_layout.addWidget(self.tokens_group)
+
+    async def handle_token_reading(self):
+        print("[TOKENS] Read Tokens pressed.")
+
+        if tokens := await self.utils.read_tokens():
+            print(tokens)
+
+    async def handle_wildlife_coin_teleport(self):
+        print("[TOKENS] Wildlife Coin Teleport pressed.")
+
+        await self.utils.entity_teleport("RAID-Coins-Wildlife-INVISO_01")
+
+    async def handle_elements_coin_teleport(self):
+        print("[TOKENS] Elements Coin Teleport pressed.")
+
+        await self.utils.entity_teleport("RAID-Coins-Elements-INVISO_01")
+
+    async def handle_cosmic_coin_teleport(self):
+        print("[TOKENS] Cosmic Coin Teleport pressed.")
+
+        await self.utils.entity_teleport("RAID-Coins-Cosmic-INVISO_01")
+
 class MiscTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
         super().__init__()
@@ -1557,7 +1661,7 @@ class MainWindow(QWidget):
             self.window().setStyleSheet(self.themes.azteca)
 
         self.setWindowTitle("Crying Sky Cheat Tool - Lxghtend")
-        self.resize(604, 400)
+        self.resize(668, 400)
 
         layout = QVBoxLayout(self)
 
@@ -1571,6 +1675,7 @@ class MainWindow(QWidget):
         self.fish_tab = FishTab(self.utils, self.hooked_clients)
         self.touchstones_tab = TouchstonesTab(self.utils, self.hooked_clients)
         self.drums_tab = DrumsTab(self.utils, self.hooked_clients)
+        self.tokens_tab = TokensTab(self.utils, self.hooked_clients)
         self.misc_tab = MiscTab(self.utils, self.hooked_clients)
         self.utility_tab = UtilityTab(self.utils, self.hooked_clients)
         self.themes_tab = ThemesTab(self.themes)
@@ -1582,6 +1687,7 @@ class MainWindow(QWidget):
         tabs.addTab(self.fish_tab, "Fish")
         tabs.addTab(self.touchstones_tab, "Touchstones")
         tabs.addTab(self.drums_tab, "Drums")
+        tabs.addTab(self.tokens_tab, "Tokens")
         tabs.addTab(self.misc_tab, "Misc.")
         tabs.addTab(self.utility_tab, "Utility")
         tabs.addTab(self.themes_tab, "Themes")

@@ -294,6 +294,33 @@ class Utils():
             except asyncio.CancelledError:
                 print(f"[AUTO DRUMS] cancelled at drum #{i + 1}.")
 
+    async def read_tokens(self) -> list[list]:
+        client = self.foreground_client
+        if client:
+            tokens = [] 
+
+            for entity in  await client.get_base_entity_list():
+                entity_name = await entity.object_name()
+
+                if "Coins" in entity_name:
+                    token_info = []
+
+                    behavior = await entity.search_behavior_by_name("AnimationBehavior")
+                    string = await behavior.read_string_from_offset(576)
+
+                    if string == "00_Hidden":
+                        token_info.append(entity_name)
+                        token_info.append(await entity.location())
+                        token_info.append(string)
+
+                        tokens.append(token_info)
+            
+            if not tokens:
+                print(f"{client.title} did not find any tokens.")
+                return
+
+            return tokens
+
     async def patch_fish(self, client: Client) -> list[tuple[int, bytes]]:
         async def readbytes_writebytes(pattern:bytes, write_bytes:int) -> tuple[int, bytes]:
             add = await reader.pattern_scan(pattern, return_multiple=False)
