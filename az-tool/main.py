@@ -772,6 +772,7 @@ class FishTab(QWidget):
         
         if self.catch_all_fish_task:
             self.catch_all_fish_task.cancel()
+            self.catch_all_fish_task = None
             print("[FISH] Cancelled catching all fish.")
 
     async def east_fish_collector_teleport(self):
