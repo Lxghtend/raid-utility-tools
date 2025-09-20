@@ -1140,17 +1140,17 @@ class TokensTab(QWidget):
     async def handle_wildlife_coin_teleport(self):
         print("[TOKENS] Wildlife Coin Teleport pressed.")
 
-        await self.utils.entity_teleport("RAID-Coins-Wildlife-INVISO_01")
+        await self.utils.token_teleport("RAID-Coins-Wildlife-INVISO_01")
 
     async def handle_elements_coin_teleport(self):
         print("[TOKENS] Elements Coin Teleport pressed.")
 
-        await self.utils.entity_teleport("RAID-Coins-Elements-INVISO_01")
+        await self.utils.token_teleport("RAID-Coins-Elements-INVISO_01")
 
     async def handle_cosmic_coin_teleport(self):
         print("[TOKENS] Cosmic Coin Teleport pressed.")
 
-        await self.utils.entity_teleport("RAID-Coins-Cosmic-INVISO_01")
+        await self.utils.token_teleport("RAID-Coins-Cosmic-INVISO_01")
 
 class MiscTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):

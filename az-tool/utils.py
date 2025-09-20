@@ -320,6 +320,20 @@ class Utils():
                 return
 
             return tokens
+        
+    async def token_teleport(self, token_name: str):
+        client = self.foreground_client
+        if client:
+            for entity in  await client.get_base_entity_list():
+                entity_name = await entity.object_name()
+
+                if token_name == entity_name:
+                    behavior = await entity.search_behavior_by_name("AnimationBehavior")
+                    string = await behavior.read_string_from_offset(576)
+
+                    if string == "00_Hidden":
+                        await client.teleport(await entity.location())
+                        return
 
     async def patch_fish(self, client: Client) -> list[tuple[int, bytes]]:
         async def readbytes_writebytes(pattern:bytes, write_bytes:int) -> tuple[int, bytes]:
