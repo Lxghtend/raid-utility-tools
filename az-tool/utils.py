@@ -121,7 +121,7 @@ class Utils():
             
             while True:
                 await client.client_object.write_speed_multiplier(400)
-                await client.wait_for_zone_change()
+                await asyncio.sleep(1)
 
         except asyncio.CancelledError:
             await client.client_object.write_speed_multiplier(1)
