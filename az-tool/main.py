@@ -768,6 +768,9 @@ class FishTab(QWidget):
 
         if not self.catch_all_fish_task:
             self.catch_all_fish_task = asyncio.create_task(self.utils.catch_all_fish())
+            await self.catch_all_fish_task
+            
+            self.catch_all_fish_task = None
             return
         
         if self.catch_all_fish_task:

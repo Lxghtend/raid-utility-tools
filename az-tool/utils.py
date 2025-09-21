@@ -617,6 +617,8 @@ class Utils():
                     await client.send_key(Keycode.SPACEBAR)
                     await asyncio.sleep(0.1)
 
+                print(f"{client.title} caught a fish.")
+
                 await asyncio.sleep(0.5)
 
             print(f"{client.title} completed catching all fish.")
