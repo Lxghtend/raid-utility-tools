@@ -1766,6 +1766,8 @@ def main():
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
 
     app.setWindowIcon(QIcon("icon.ico"))
+    
+    app.setStyle("Fusion")
 
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)

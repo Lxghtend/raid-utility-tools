@@ -1031,6 +1031,8 @@ def main():
 
     app.setWindowIcon(QIcon("icon.ico"))
 
+    app.setStyle("Fusion")
+
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
 
