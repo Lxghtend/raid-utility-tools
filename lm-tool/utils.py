@@ -5,7 +5,9 @@ import pyperclip
 import configparser
 from wizwalker.memory import Window
 from wizwalker.constants import Keycode
+from wizwalker.errors import HookNotActive
 from wizwalker import ClientHandler, Client, XYZ
+from wizwalker.memory.memory_objects.enums import WindowFlags
 
 from worlds_collide import WorldsCollideTP
 
@@ -16,12 +18,27 @@ class Utils():
         self.foreground_client = None
 
         threading.Thread(target=self.update_foreground_client, daemon=True).start()
+        threading.Thread(target=lambda: asyncio.run(self.update_hooked_text()), daemon=True).start()
 
     def update_foreground_client(self):
         while True:
             if (client := self.handler.get_foreground_client()):
                 self.foreground_client = client
             time.sleep(0.1)
+
+    async def update_hooked_text(self):
+        while True:
+            client = self.foreground_client
+            if client:
+                try:
+                    window = (await client.root_window.get_windows_with_name('txtTestRealmText'))[0]
+                    await window.write_maybe_text('HOOKED')
+                    await window.write_flags(WindowFlags.visible)
+
+                except (IndexError, HookNotActive):
+                    pass
+
+            await asyncio.sleep(1)
 
     def read_config(self) -> dict[str, bool]:
         settings = {}
@@ -76,6 +93,9 @@ class Utils():
         print(f"{client.title} hooks activated.")
 
     async def deactivate_hooks(self, client: Client): # TODO: rework logic and make this stop getting clients from get_open_clients
+        hooked_window = (await client.root_window.get_windows_with_name('txtTestRealmText'))[0]
+        await hooked_window.write_flags(WindowFlags.disabled)
+
         await client.close()
         print(f"{client.title} hooks deactivated.")
 
