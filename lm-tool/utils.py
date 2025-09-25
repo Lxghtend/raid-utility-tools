@@ -210,18 +210,18 @@ class Utils():
         client = self.foreground_client
 
         entity_roles = {
-        "GR_LM_Horse_MustangFencerF_A_01": "🌩️ Trap ",
-        "GR_LM_Horse_MustangFencerF_A_02": "🌩️ DoT ",
-        "GR_LM_Horse_MustangFencerF_A_03": "🌩️ Shield ",
-        "GR_LM_Crab_Thug_A_01":         "❄️ HoT ",
-        "GR_LM_Crab_Thug_A_02":         "❄️ Blade ",
-        "GR_LM_Crab_Thug_A_03":         "❄️ DoT ",
-        "GR_LM_Roach_Lieutenant_A_01":  "👁️ Blade ",
-        "GR_LM_Roach_Lieutenant_A_02":  "👁️ Weakness ",
-        "GR_LM_Roach_Lieutenant_A_03":  "👁️ HoT ",
-        "GR_LM_Ophidian_Thug_A_01":     "💀 DoT ",
-        "GR_LM_Ophidian_Thug_A_02":     "💀 HoT ",
-        "GR_LM_Ophidian_Thug_A_03":     "💀 Trap ",
+        "GR_LM_Horse_MustangFencerF_A_01": "Storm Trap ",
+        "GR_LM_Horse_MustangFencerF_A_02": "Storm DoT ",
+        "GR_LM_Horse_MustangFencerF_A_03": "Storm Shield ",
+        "GR_LM_Crab_Thug_A_01":         "Ice HoT ",
+        "GR_LM_Crab_Thug_A_02":         "Ice Blade ",
+        "GR_LM_Crab_Thug_A_03":         "Ice DoT ",
+        "GR_LM_Roach_Lieutenant_A_01":  "Myth Blade ",
+        "GR_LM_Roach_Lieutenant_A_02":  "Myth Weakness ",
+        "GR_LM_Roach_Lieutenant_A_03":  "Myth HoT ",
+        "GR_LM_Ophidian_Thug_A_01":     "Death DoT ",
+        "GR_LM_Ophidian_Thug_A_02":     "Death HoT ",
+        "GR_LM_Ophidian_Thug_A_03":     "Death Trap ",
         }
 
         if client:
