@@ -11,8 +11,7 @@ This project took immense effort — the **UI framework** and the systems that r
 
 Countless hours went into refining the tools, experimenting with different designs, and improving the overall raid utility framework to make it as reliable and user-friendly as possible.
 
-If you enjoy these tools and would like to support future development,  please consider [buying me a coffee](https://www.buymeacoffee.com/lxghtend). ☕  
-Your support means a lot and helps keep this project alive!
+If you enjoy these tools and would like to support future development,  please consider [buying me a coffee](https://www.buymeacoffee.com/lxghtend).  
 
 ---
 
@@ -29,6 +28,7 @@ Utility tool for the **Crying Sky** raid.
 **Raid-specific features:**  
 - Fishing utilities  
 - Touchstone locations  
+- Token utilities
 - Cacao Pod utilities
 - Misfortune Tear utilities  
 - Drums  
