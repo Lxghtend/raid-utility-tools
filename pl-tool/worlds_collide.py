@@ -584,14 +584,14 @@ async def WorldsCollideTP(
     """
     try:
         player_pos = await client.body.position()
-        logger.debug(f"Player position: {player_pos}")
-        logger.debug(f"Target position: {target_position}")
+        #logger.debug(f"Player position: {player_pos}")
+        #logger.debug(f"Target position: {target_position}")
 
         world, static_coll_shapes, mesh_shapes = await _load_and_build_collision_geometry(client, target_position.z)
         entity_coll_shapes = await _get_entity_collision_shapes(client, static_body_radius)
 
         all_coll_shapes = static_coll_shapes + entity_coll_shapes
-        logger.debug(f"Total collision objects (static + dynamic): {len(all_coll_shapes)}")
+        #logger.debug(f"Total collision objects (static + dynamic): {len(all_coll_shapes)}")
 
         union_all_coll = unary_union(all_coll_shapes) if all_coll_shapes else Polygon()
         union_mesh = unary_union(mesh_shapes) if mesh_shapes else Polygon()
@@ -600,33 +600,33 @@ async def WorldsCollideTP(
 
         bounds_geom = union_mesh if not union_mesh.is_empty else union_all_coll
         if bounds_geom.is_empty:
-            logger.error("No geometry (mesh or collision) found to define zone boundaries. Aborting.")
+            #logger.error("No geometry (mesh or collision) found to define zone boundaries. Aborting.")
             return False
         bounds = bounds_geom.bounds
-        logger.debug(f"Instance bounds: X[{bounds[0]:.1f},{bounds[2]:.1f}]  Y[{bounds[1]:.1f},{bounds[3]:.1f}]")
+        #logger.debug(f"Instance bounds: X[{bounds[0]:.1f},{bounds[2]:.1f}]  Y[{bounds[1]:.1f},{bounds[3]:.1f}]")
 
         # Check for intersection using the player's actual radius
         player_height = await client.body.height()
         player_scale = await client.body.scale()
         base_player_radius = player_height * player_scale * 0.5
         player_radius = base_player_radius * player_radius_offset
-        logger.debug(f"Estimated player radius (offset applied): {player_radius:.2f}")
+        #logger.debug(f"Estimated player radius (offset applied): {player_radius:.2f}")
 
         player_at_target = Point(target_position.x, target_position.y).buffer(player_radius)
 
         if not union_all_coll.intersects(player_at_target):
-            logger.info("Target position is clear of all known collision objects. Attempting direct teleport...")
+            #logger.info("Target position is clear of all known collision objects. Attempting direct teleport...")
             await client.teleport(target_position)
             return True
 
-        logger.info("Target position intersects with collision objects. Calculating safe teleport point.")
+        #logger.info("Target position intersects with collision objects. Calculating safe teleport point.")
 
         success = await _perform_single_teleport_attempt(
             client, free_area, target_position, bounds, base_player_radius, player_radius_offset
         )
 
         if success:
-            logger.info("Collision-based teleportation was successful.")
+            #logger.info("Collision-based teleportation was successful.")
             return True
         else:
             logger.error("Collision-based teleportation failed.")
