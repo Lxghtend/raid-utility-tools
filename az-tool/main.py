@@ -673,7 +673,7 @@ class FishTab(QWidget):
 
     async def activate_fish_hooks(self):
         print(f"[FISH] Activate Fish Hooks pressed.")
-        client = self.utils.foreground_client # I was **not** to use this in main, but cannot think of any other way.
+        client = self.utils.foreground_client # I was trying **not** to use this in main, but cannot think of any other way.
 
         if client not in self.fish_hooks:
             self.fish_hooking_tasks[client] = asyncio.create_task(self.utils.patch_fish(client))
