@@ -1045,6 +1045,9 @@ class DrumsTab(QWidget):
         
         if not self.auto_drums_task:
             self.auto_drums_task = asyncio.create_task(self.utils.auto_raid_drums())
+            await self.auto_drums_task
+
+            self.auto_drums_task = None
             return
         
         if self.auto_drums_task:
