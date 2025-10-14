@@ -4,9 +4,9 @@ import threading
 import pyperclip
 import configparser
 from wizwalker.memory import Window
-from wizwalker.constants import Keycode
 from wizwalker.errors import HookNotActive
 from wizwalker import ClientHandler, Client, XYZ
+from wizwalker.constants import Keycode, Primitive
 from wizwalker.memory.memory_objects.enums import WindowFlags
 
 from worlds_collide import WorldsCollideTP
@@ -27,11 +27,19 @@ class Utils():
             time.sleep(0.1)
 
     async def update_hooked_text(self):
+        async def write_window_rectangle(window: Window, x1: int, y1: int, x2: int, y2: int):
+            await window.write_value_to_offset(160, x1, Primitive.int32)
+            await window.write_value_to_offset(164, y1, Primitive.int32)
+            await window.write_value_to_offset(168, x2, Primitive.int32)
+            await window.write_value_to_offset(172, y2, Primitive.int32)
+
         while True:
-            client = self.foreground_client
-            if client:
+            for client in self.get_open_clients():
                 try:
                     window = (await client.root_window.get_windows_with_name('txtTestRealmText'))[0]
+
+                    await write_window_rectangle(window, 10, 146, 153, 165)
+                    
                     await window.write_maybe_text('HOOKED')
                     await window.write_flags(WindowFlags.visible)
 
