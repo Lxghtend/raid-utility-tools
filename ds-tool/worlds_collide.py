@@ -474,7 +474,7 @@ async def _get_entity_collision_shapes(client: Client, static_body_radius: float
     Gets entities and approximates their collision shapes as circles.
     Uses a dynamic radius for 'CharacterBody' and a static default radius for other types.
     """
-    logger.debug("Getting dynamic entity collision shapes...")
+    #logger.debug("Getting dynamic entity collision shapes...")
     entity_shapes = []
     try:
         entity_list = await client.get_base_entity_list()
@@ -495,10 +495,10 @@ async def _get_entity_collision_shapes(client: Client, static_body_radius: float
                 entity_height = await actor_body.height()
                 entity_scale = await actor_body.scale()
                 entity_radius = entity_height * entity_scale * 0.5
-                logger.debug(f"Calculating radius for '{entity_name}' (CharacterBody): {entity_radius:.2f}")
+                #logger.debug(f"Calculating radius for '{entity_name}' (CharacterBody): {entity_radius:.2f}")
             else:
                 entity_radius = static_body_radius
-                logger.debug(f"Applying static radius for '{entity_name}' ({actor_type}): {entity_radius:.2f}")
+                #logger.debug(f"Applying static radius for '{entity_name}' ({actor_type}): {entity_radius:.2f}")
 
             if entity_radius > 0:
                 entity_shapes.append(Point(entity_loc.x, entity_loc.y).buffer(entity_radius))
@@ -506,7 +506,7 @@ async def _get_entity_collision_shapes(client: Client, static_body_radius: float
     except Exception as e:
         logger.error(f"An error occurred while getting entity collision shapes: {e}", exc_info=True)
 
-    logger.debug(f"Generated {len(entity_shapes)} collision shapes from dynamic entities.")
+    #logger.debug(f"Generated {len(entity_shapes)} collision shapes from dynamic entities.")
     return entity_shapes
 
 
@@ -523,7 +523,7 @@ async def _perform_single_teleport_attempt(
     player_radius = base_player_radius * player_radius_offset
     minx, miny, maxx, maxy = bounds
 
-    logger.debug(f"Performing teleport attempt with offset={player_radius_offset:.2f}, radius={player_radius:.2f}")
+    #logger.debug(f"Performing teleport attempt with offset={player_radius_offset:.2f}, radius={player_radius:.2f}")
 
     if not free_area or free_area.is_empty:
         logger.error("Free area is empty, cannot calculate a safe region.")
@@ -536,32 +536,32 @@ async def _perform_single_teleport_attempt(
 
     _, pt2 = nearest_points(Point(target.x, target.y), safe_region)
     safe_pt = XYZ(pt2.x, pt2.y, target.z)
-    logger.debug(f"Calculated candidate safe_pt: {safe_pt}")
+    #logger.debug(f"Calculated candidate safe_pt: {safe_pt}")
 
     cx = min(max(safe_pt.x, minx), maxx)
     cy = min(max(safe_pt.y, miny), maxy)
     safe_pt = XYZ(cx, cy, safe_pt.z)
-    logger.debug(f"Clamped safe_pt to instance bounds: {safe_pt}")
+    #logger.debug(f"Clamped safe_pt to instance bounds: {safe_pt}")
 
     start_zone_name = await client.zone_name()
     await client.teleport(safe_pt)
 
-    logger.debug("Waiting for server to confirm position or zone change...")
+    #logger.debug("Waiting for server to confirm position or zone change...")
     await asyncio.sleep(0.5) #changed from 2.5 to 0.5
 
     new_pos = await client.body.position()
     end_zone_name = await client.zone_name()
     is_loading = await client.is_loading()
 
-    logger.debug(f"Position after TP and sleep: {new_pos}")
-    logger.debug(f"Zone after TP: '{end_zone_name}', Loading: {is_loading}")
+    #logger.debug(f"Position after TP and sleep: {new_pos}")
+    #logger.debug(f"Zone after TP: '{end_zone_name}', Loading: {is_loading}")
 
     if is_loading or start_zone_name != end_zone_name:
         logger.info("Teleport successful: Zone change detected.")
         return True
 
     error = math.dist((new_pos.x, new_pos.y), (safe_pt.x, safe_pt.y))
-    logger.debug(f"Post-teleport 2D error={error:.2f}, Epsilon Threshold={epsilon:.2f}")
+    #logger.debug(f"Post-teleport 2D error={error:.2f}, Epsilon Threshold={epsilon:.2f}")
 
     if error < epsilon:
         logger.info("Teleport to safe point appears successful based on position error.")
