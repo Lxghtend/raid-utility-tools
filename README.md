@@ -124,7 +124,7 @@ Clone the repository and install dependencies:
 
 ```bash
 git clone https://github.com/lxghtend/raid-utility-tools.git
-cd raid-utility-tools
+cd raid-utility-tools\az-tool
 pip install -r requirements.txt
 ```
 
