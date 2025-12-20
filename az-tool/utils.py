@@ -376,7 +376,7 @@ class Utils():
             # scare fish patch
             num_nops = 5
             write_bytes = b"\x90" * num_nops
-            pattern = rb"\xE8....\xEB.\x83\xF9\x04\x75.\xC7\x87" # E8 ?? ?? ?? ?? EB ?? 83 F9 04 75 ?? C7 87
+            pattern = rb"\xE8....\xEB.\x83\xF9\x04\x75..\xC7\x87" # E8 ?? ?? ?? ?? EB ?? 83 F9 04 75 ?? ?? C7 87
             address_oldbytes.append(await readbytes_writebytes(pattern, write_bytes))
         
         async def bobber_submerison_rng_patch():
@@ -397,7 +397,7 @@ class Utils():
             # patch instant fish
             num_nops = 2
             write_bytes = b"\x90" * num_nops
-            pattern = rb"\x74\x63\x48\x8B\xCF\xE8....\x0F" #74 63 48 8B CF E8 ?? ?? ?? ?? 0F
+            pattern = rb"\x74\x64\x48\x8B\xCF\xE8....\x44\x0F" #74 64 48 8B CF E8 ?? ?? ?? ?? 44 0F
             address_oldbytes.append(await readbytes_writebytes(pattern, write_bytes))
         
         async def instant_fish_2():
@@ -458,8 +458,8 @@ class Utils():
         
         async def skip_bobbing_patch():
             # skipping bobbing animation
-            pattern = rb"\x0F\x82....\xF3\x0F\x11\x87" #0F 82 ?? ?? ?? ?? F3 0F 11 87
-            write_bytes = b"\xE9\x79\x05\x00\x00\x90"
+            pattern = rb"\x0F\x82....\xF3\x0F\x11\x97" #0F 82 ?? ?? ?? ?? F3 0F 11 97
+            write_bytes = b"\xE9\xBA\x05\x00\x00\x90"
             address_oldbytes.append(await readbytes_writebytes(pattern, write_bytes))
 
         async def skip_catch_animation():
@@ -470,7 +470,7 @@ class Utils():
         async def skip_struggle():
             num_nops = 6
             write_bytes = b"\x90" * num_nops
-            pattern = rb"\x0F\x82....\x44..\xE4\x02\x00\x00\x48..\xC8\x02\x00\x00" # 0F 82 ?? ?? ?? ?? 44 ?? ?? E4 02 00 00 48 ?? ?? C8 02 00 00
+            pattern = rb"\x0F\x82....\x89\xB7\xE4\x02\x00\x00\x48..\xC8\x02\x00\x00" # 0F 82 ?? ?? ?? ?? 89 B7 E4 02 00 00 48 ?? ?? C8 02 00 00
             address_oldbytes.append(await readbytes_writebytes(pattern, write_bytes))
 
         patches = [
