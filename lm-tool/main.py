@@ -619,22 +619,22 @@ class CauldronTab(QWidget):
     async def grab_mustache_folder(self):
         print(f"[TRACY] Grab Mustache Folder pressed.")
 
-        await self.utils.grab_item("Raid_LM_Folder_Mustache")
+        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Mustache"), timeout=10)
 
     async def grab_props_folder(self):
         print(f"[TRACY] Grab Props Folder pressed.")
 
-        await self.utils.grab_item("Raid_LM_Folder_Props")
+        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Props"), timeout=10)
 
     async def grab_flames_folder(self):
         print(f"[TRACY] Grab Flames Folder pressed.")
 
-        await self.utils.grab_item("Raid_LM_Folder_Flames")
+        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Flames"), timeout=10)
 
     async def grab_comb_folder(self):
         print(f"[TRACY] Grab Comb Folder pressed.")
 
-        await self.utils.grab_item("Raid_LM_Folder_Comb")
+        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Comb"), timeout=10)
 
 class UtilityTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
