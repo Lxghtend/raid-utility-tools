@@ -1289,7 +1289,7 @@ class MiscTab(QWidget):
     async def grab_cacao_pod(self):
         print(f"[MISC.] Grab Cacao Pod pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_AZ_Cacao"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_AZ_Cacao"), timeout=5.0)
 
     async def cacao_pod_collector_teleport(self):
         print(f"[MISC.] Cacao Pod Collector Teleport pressed.")
@@ -1304,7 +1304,7 @@ class MiscTab(QWidget):
     async def grab_misfortune_tear(self):
         print(f"[MISC.] Grab Misfortune Tear pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_Jewel_Reagent"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_Jewel_Reagent"), timeout=5.0)
 
     async def misfortune_tear_collector_teleport(self):
         print(f"[MISC.] Cacao Pod Collector Teleport pressed.")

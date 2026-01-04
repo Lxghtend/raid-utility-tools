@@ -421,27 +421,27 @@ class ChestsTab(QWidget):
     async def grab_butterfly_coin(self):
         print(f"[CHEST] Grab Butterfly Coin pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Butterfly_PU"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Butterfly_PU"), timeout=5.0)
 
     async def grab_crane_coin(self):
         print(f"[CHEST] Grab Crane Coin pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Crane_PU"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Crane_PU"), timeout=5.0)
 
     async def grab_tree_coin(self):
         print(f"[CHEST] Grab Tree Coin pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Tree_PU"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Tree_PU"), timeout=5.0)
 
     async def grab_spider_coin(self):
         print(f"[CHEST] Grab Spider Coin pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Spider_PU"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Spider_PU"), timeout=5.0)
 
     async def grab_snake_coin(self):
         print(f"[CHEST] Grab Snake Coin pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Snake_PU"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_Coin_Snake_PU"), timeout=5.0)
 
 class TracyTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
@@ -524,12 +524,12 @@ class TracyTab(QWidget):
     async def grab_forensic_evidence(self):
         print(f"[TRACY] Grab Forensic Evidence pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_B"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_B"), timeout=5.0)
 
     async def grab_bombshell_evidence(self):
         print(f"[TRACY] Grab Bombshell Evidence pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_C"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_C"), timeout=5.0)
 
 class CauldronTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):

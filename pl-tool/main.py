@@ -485,7 +485,7 @@ class CatapultsTab(QWidget):
     async def grab_rope(self):
         print(f"[CATAPULTS] Grab Rope pressed.")
 
-        await asyncio.wait_for(self.utils.grab_item("Raid-PL-Gear"), timeout=10.0)
+        await asyncio.wait_for(self.utils.grab_item("Raid-PL-Gear"), timeout=5.0)
 
     async def fix_red_catapult_button(self):
         print(f"[CATAPULTS] Fix NW/Red Catapult pressed.")
