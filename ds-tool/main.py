@@ -504,7 +504,7 @@ class StarsTab(QWidget):
     async def grab_star(self):
         print(f"[STARS] Grab Star pressed.")
 
-        await self.utils.grab_item("Raid_PowerSource")
+        await asyncio.wait_for(self.utils.grab_item("Raid_PowerSource"), timeout=10.0)
 
 class DrumsTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
