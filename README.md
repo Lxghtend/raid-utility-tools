@@ -5,7 +5,7 @@ Each tool provides quality-of-life features, shortcuts, and client utilities for
 
 ---
 
-## 🛠️ Development Notes
+## Development Notes
 
 This project took immense effort — the **UI framework** and the systems that run behind the scenes have been rewritten multiple times to ensure stability, usability, and performance.  
 
@@ -53,7 +53,7 @@ Utility tool for the **Ghastly Conspiracy** raid.
 
 ---
 
-## 🧰 Additional Features (Included in All Tools)
+## 🔹 Additional Features (Included in All Tools)
 - Client renaming
 - Client hook management
 - Client information  
@@ -64,7 +64,7 @@ Utility tool for the **Ghastly Conspiracy** raid.
 
 ---
 
-## ⚙️ Configuration (`config.ini`)
+## Configuration (`config.ini`)
 
 Each tool supports a simple configuration file named **`config.ini`**.  
 This file allows you to toggle common settings without modifying code.
@@ -87,7 +87,7 @@ toggle_auto_dialogue = F7
 
 ---
 
-## 🎨 Custom Theme Configuration
+## Custom Theme Configuration
 
 All tools support user-defined themes to customize the look and feel of the interface.  
 Themes can be configured by editing the **`custom_theme`** dictionary inside the tool’s **`themes.py`** file.
@@ -118,7 +118,7 @@ custom_theme = {
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 Clone the repository and install dependencies:
 
@@ -130,7 +130,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Usage
+## Usage
 
 Each tool can be run individually:
 
@@ -150,7 +150,7 @@ python lm-tool/main.py
 
 ---
 
-## 📝 Requirements
+## Requirements
 - Python **3.11+**  
 - Dependencies listed in `requirements.txt`
 
