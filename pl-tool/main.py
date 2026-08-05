@@ -1030,13 +1030,23 @@ class MainWindow(QWidget):
 
         footers_layout = QHBoxLayout()
 
-        donation_link_label = QLabel('<a href="https://www.buymeacoffee.com/lxghtend">Donate</a>', alignment=Qt.AlignmentFlag.AlignLeft)
+        left_layout = QHBoxLayout()
+        left_layout.setSpacing(0)
+
+        donation_link_label = QLabel('<a href="https://www.buymeacoffee.com/lxghtend">Donate, </a>', alignment=Qt.AlignmentFlag.AlignLeft)
+        merc_services_label = QLabel('<a href="https://discord.gg/q8Yc7m6Gnv">Mercenary Services</a>', alignment=Qt.AlignmentFlag.AlignLeft)
         credit_label = QLabel('Made by Lxghtend (<a href="https://github.com/Lxghtend">https://github.com/Lxghtend</a>)', alignment=Qt.AlignmentFlag.AlignRight)
 
-        donation_link_label.setOpenExternalLinks(True)                    
+        donation_link_label.setOpenExternalLinks(True)
+        merc_services_label.setOpenExternalLinks(True)
         credit_label.setOpenExternalLinks(True)
 
-        footers_layout.addWidget(donation_link_label)
+        left_layout.addWidget(donation_link_label)
+        left_layout.addWidget(merc_services_label)
+        
+        footers_layout.addLayout(left_layout)
+        footers_layout.addStretch()
+
         footers_layout.addWidget(credit_label)
 
         layout.addLayout(footers_layout)
