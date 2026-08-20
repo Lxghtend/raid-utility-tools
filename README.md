@@ -2,6 +2,7 @@
 
 A collection of utility tools designed to assist with different **Wizard101 raid instances**.  
 Each tool provides quality-of-life features, shortcuts, and client utilities for more efficient raiding.
+A popup will appear when a new update has been released.  Updates can be installed with only one click.
 
 ---
 
@@ -122,11 +123,23 @@ custom_theme = {
 
 Clone the repository and install dependencies:
 
+Method 1 (Recommended):
+
+```bash
+git clone https://github.com/lxghtend/raid-utility-tools.git
+cd raid-utility-tools\az-tool
+uv venv
+uv pip install -r requirements.txt
+```
+
+Method 2:
+
 ```bash
 git clone https://github.com/lxghtend/raid-utility-tools.git
 cd raid-utility-tools\az-tool
 pip install -r requirements.txt
 ```
+**Note: The built-in updater only works if the tools were installed via git**
 
 ---
 

@@ -1,3 +1,4 @@
+import os
 import sys
 import ctypes
 import asyncio
@@ -9,6 +10,9 @@ from PyQt6.QtGui import QIcon, QDesktopServices
 
 from utils import Utils
 from themes import Themes
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from updater import check_for_update, trigger_update
 
 class HooksTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
@@ -34,7 +38,7 @@ class HooksTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         #rename_clients_button.setMaximumHeight(50)
         rename_clients_button.setMinimumHeight(50)
 
@@ -55,7 +59,7 @@ class HooksTab(QWidget):
         self.hooks_checkboxes.setLayout(self.hooks_checkboxes_layout)
         self.hooks_tab_layout.addWidget(self.hooks_checkboxes)
         # ---------------------------------------- #
-        
+
         # ----- Creating No Clients Found Label ----- #
         self.no_clients_found_label = QLabel("No clients found.")
         self.hooks_checkboxes_layout.addWidget(self.no_clients_found_label)
@@ -158,7 +162,7 @@ class HooksTab(QWidget):
                     self.client_checkboxes.append(client_checkbox)
 
                     self.hooks_checkboxes_layout.addWidget(client_checkbox)
-                    
+
             if self.client_checkboxes:
                 self.no_clients_found_label.hide()
 
@@ -212,7 +216,7 @@ class ClientsTab(QWidget):
                     energy_label = QLabel(f"Energy: {await client.current_energy()}/{await client.stats.energy_max() + await client.stats.bonus_energy()}")
                     position_label = QLabel(f"Position: {await client.body.position()}")
                     yaw_label = QLabel(f"Yaw: {await client.body.yaw()}")
-                
+
                     client_frame_layout.addWidget(level_label)
                     client_frame_layout.addWidget(health_label)
                     client_frame_layout.addWidget(mana_label)
@@ -276,7 +280,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         wood_chest_button.setMaximumHeight(50)
         wood_chest_button.setMinimumHeight(50)
 
@@ -292,7 +296,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         silver_chest_button.setMaximumHeight(50)
         silver_chest_button.setMinimumHeight(50)
 
@@ -308,7 +312,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         gold_chest_button.setMaximumHeight(50)
         gold_chest_button.setMinimumHeight(50)
 
@@ -324,7 +328,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         butterfly_coin_button.setMaximumHeight(50)
         butterfly_coin_button.setMinimumHeight(50)
 
@@ -340,7 +344,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         crane_coin_button.setMaximumHeight(50)
         crane_coin_button.setMinimumHeight(50)
 
@@ -356,7 +360,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         tree_coin_button.setMaximumHeight(50)
         tree_coin_button.setMinimumHeight(50)
 
@@ -372,7 +376,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         spider_coin_button.setMaximumHeight(50)
         spider_coin_button.setMinimumHeight(50)
 
@@ -388,7 +392,7 @@ class ChestsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         snake_coin_button.setMaximumHeight(50)
         snake_coin_button.setMinimumHeight(50)
 
@@ -417,7 +421,7 @@ class ChestsTab(QWidget):
         print(f"[CHEST] Gold Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(-5994.149, -3256.483, 271.304)
-        
+
     async def grab_butterfly_coin(self):
         print(f"[CHEST] Grab Butterfly Coin pressed.")
 
@@ -778,15 +782,15 @@ class UtilityTab(QWidget):
 
         if cheats := await self.utils.find_cheats():
             print(f"[UTILITY] Cheats: {cheats}")
-            
+
     async def toggle_auto_dialogue(self):
         print("[UTILITY] Auto Dialogue pressed.")
-        
+
         if not self.auto_dialogue_tasks:
             for client in self.hooked_clients:
                 self.auto_dialogue_tasks[client] = asyncio.create_task(self.utils.handle_auto_dialogue(client))
             return
-        
+
         if self.auto_dialogue_tasks:
             for client, auto_dialogue_task in self.auto_dialogue_tasks.items():
                 auto_dialogue_task.cancel()
@@ -794,12 +798,12 @@ class UtilityTab(QWidget):
 
     async def toggle_speedhack(self):
         print("[UTILITY] Speedhack pressed.")
-        
+
         if not self.speedhack_tasks:
             for client in self.hooked_clients:
                 self.speedhack_tasks[client] = asyncio.create_task(self.utils.handle_speedhack(client))
             return
-        
+
         if self.speedhack_tasks:
             for client, speedhack_task in self.speedhack_tasks.items():
                 speedhack_task.cancel()
@@ -807,12 +811,12 @@ class UtilityTab(QWidget):
 
     async def toggle_freecam(self):
         print("[UTILITY] Freecam pressed.")
-        
+
         if not self.freecam_task:
             if self.hooked_clients:
                 self.freecam_task = asyncio.create_task(self.utils.handle_freecam())
                 return
-        
+
         if self.freecam_task:
             self.freecam_task.cancel()
             self.freecam_task = None
@@ -826,7 +830,7 @@ class UtilityTab(QWidget):
 
         if self.freecam_task:
             self.freecam_task.cancel()
-        
+
             camera_pos = await self.freecam_task
 
             self.freecam_task = None
@@ -1059,7 +1063,7 @@ class MainWindow(QWidget):
 
         left_layout.addWidget(donation_link_label)
         left_layout.addWidget(merc_services_label)
-        
+
         footers_layout.addLayout(left_layout)
         footers_layout.addStretch()
 
@@ -1068,7 +1072,7 @@ class MainWindow(QWidget):
         layout.addLayout(footers_layout)
 
         self.start_keybinds()
-        
+
     def start_keybinds(self):
         def run_threadsafe(coroutine):
             asyncio.run_coroutine_threadsafe(coroutine, self.loop)
@@ -1113,14 +1117,42 @@ class DisclaimerDialog(QDialog):
     def open_donate(self):
         QDesktopServices.openUrl(QUrl("https://buymeacoffee.com/lxghtend"))
 
+class UpdaterDialog(QDialog):
+    def __init__(self, parent: MainWindow = None):
+        super().__init__(parent)
+
+        self.setWindowTitle("Updater")
+        self.setFixedSize(210, 150)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("An update was found...")
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        update_button = QPushButton("Update")
+        update_button.clicked.connect(lambda: trigger_update(tool_dir=os.path.dirname(os.path.abspath(__file__))))
+
+        ok_button = QPushButton("Ignore")
+        ok_button.clicked.connect(self.accept)
+
+        layout.addWidget(label)
+        layout.addWidget(update_button)
+        layout.addWidget(ok_button)
+
+        self.setLayout(layout)
+
 def main():
+    outdated, local, remote = check_for_update()
+
     app = QApplication(sys.argv)
 
-    appid = "lxghtend.cryingsky.tool.1.0"
+    appid = "lxghtend.ghastlyconspiracy.tool.1.0"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
 
     app.setWindowIcon(QIcon("icon.ico"))
-    
+
     app.setStyle("Fusion")
 
     loop = QEventLoop(app)
@@ -1130,7 +1162,14 @@ def main():
     window.show()
 
     disclaimer = DisclaimerDialog(window)
-    disclaimer.show()
+
+    if outdated:
+        updater = UpdaterDialog(window)
+        updater.finished.connect(disclaimer.show) # shows disclaimer after updater closed
+        updater.show()
+
+    else:
+        disclaimer.show()
 
     with loop:
         loop.run_forever()

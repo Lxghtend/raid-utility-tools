@@ -1,3 +1,4 @@
+import os
 import sys
 import ctypes
 import asyncio
@@ -9,6 +10,9 @@ from PyQt6.QtGui import QIcon, QDesktopServices
 
 from utils import Utils
 from themes import Themes
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from updater import check_for_update, trigger_update
 
 class HooksTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
@@ -34,7 +38,7 @@ class HooksTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         #rename_clients_button.setMaximumHeight(50)
         rename_clients_button.setMinimumHeight(50)
 
@@ -55,7 +59,7 @@ class HooksTab(QWidget):
         self.hooks_checkboxes.setLayout(self.hooks_checkboxes_layout)
         self.hooks_tab_layout.addWidget(self.hooks_checkboxes)
         # ---------------------------------------- #
-        
+
         # ----- Creating No Clients Found Label ----- #
         self.no_clients_found_label = QLabel("No clients found.")
         self.hooks_checkboxes_layout.addWidget(self.no_clients_found_label)
@@ -158,7 +162,7 @@ class HooksTab(QWidget):
                     self.client_checkboxes.append(client_checkbox)
 
                     self.hooks_checkboxes_layout.addWidget(client_checkbox)
-                    
+
             if self.client_checkboxes:
                 self.no_clients_found_label.hide()
 
@@ -212,7 +216,7 @@ class ClientsTab(QWidget):
                     energy_label = QLabel(f"Energy: {await client.current_energy()}/{await client.stats.energy_max() + await client.stats.bonus_energy()}")
                     position_label = QLabel(f"Position: {await client.body.position()}")
                     yaw_label = QLabel(f"Yaw: {await client.body.yaw()}")
-                
+
                     client_frame_layout.addWidget(level_label)
                     client_frame_layout.addWidget(health_label)
                     client_frame_layout.addWidget(mana_label)
@@ -351,12 +355,12 @@ class TeleportsTab(QWidget):
 
     async def mana_ranch_teleport(self):
         print("[TELEPORTS] Mana Ranch Teleport pressed.")
-        
+
         await self.utils.handle_basic_teleport(7850.18017578125, 11077.51953125, 30.008514404296875)
 
     async def health_haven_teleport(self):
         print("[TELEPORTS] Health Haven Teleport pressed.")
-        
+
         await self.utils.handle_basic_teleport(7455.451, 18863.962, 30.008)
 
     async def minion_ranch_teleport(self):
@@ -366,7 +370,7 @@ class TeleportsTab(QWidget):
 
     async def thundering_elf_teleport(self):
         print("[TELEPORTS] Thundering Elf Teleport pressed.")
-        
+
         await self.utils.handle_basic_teleport(-109.602, 19715.574, -420.011, yaw=1.381)
 
     async def millispeeder_teleport(self):
@@ -402,7 +406,7 @@ class StarsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         #mana_chest_button.setMaximumHeight(50)
         #mana_chest_button.setMinimumHeight(50)
 
@@ -418,7 +422,7 @@ class StarsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         #health_chest_button.setMaximumHeight(50)
         #health_chest_button.setMinimumHeight(50)
 
@@ -434,7 +438,7 @@ class StarsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         #speed_chest_button.setMaximumHeight(50)
         #speed_chest_button.setMinimumHeight(50)
 
@@ -450,7 +454,7 @@ class StarsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         star_teleport_button.setMaximumHeight(100)
         star_teleport_button.setMinimumHeight(100)
 
@@ -458,7 +462,7 @@ class StarsTab(QWidget):
 
         self.stars_group_layout.addWidget(star_teleport_button)
         # ----------------------------- #
-        
+
         # ----- Grab Star Button ----- #
         grab_star_button = QPushButton("Grab Star")
 
@@ -466,7 +470,7 @@ class StarsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
-        
+
         grab_star_button.setMaximumHeight(100)
         grab_star_button.setMinimumHeight(100)
 
@@ -511,7 +515,7 @@ class DrumsTab(QWidget):
         super().__init__()
         self.utils = utils
         self.hooked_clients = hooked_clients
-        
+
         self.auto_drums_task = None
 
         # ----- Creating Layout ----- #
@@ -561,22 +565,22 @@ class DrumsTab(QWidget):
         self.drums_tab_layout.addWidget(auto_drums_button)
         # ---------------------------- #
 
-        
+
     async def drum_teleport(self):
         print("[DRUMS] Drum Teleport pressed.")
-        
+
         await self.utils.raid_drum_teleport()
 
     async def auto_drums(self):
         print("[DRUMS] Auto Drums pressed.")
-        
+
         if not self.auto_drums_task:
             self.auto_drums_task = asyncio.create_task(self.utils.auto_raid_drums())
             await self.auto_drums_task
 
             self.auto_drums_task = None
             return
-        
+
         if self.auto_drums_task:
             self.auto_drums_task.cancel()
             self.auto_drums_task = None
@@ -704,12 +708,12 @@ class UtilityTab(QWidget):
 
     async def toggle_auto_dialogue(self):
         print("[UTILITY] Auto Dialogue pressed.")
-        
+
         if not self.auto_dialogue_tasks:
             for client in self.hooked_clients:
                 self.auto_dialogue_tasks[client] = asyncio.create_task(self.utils.handle_auto_dialogue(client))
             return
-        
+
         if self.auto_dialogue_tasks:
             for client, auto_dialogue_task in self.auto_dialogue_tasks.items():
                 auto_dialogue_task.cancel()
@@ -717,12 +721,12 @@ class UtilityTab(QWidget):
 
     async def toggle_speedhack(self):
         print("[UTILITY] Speedhack pressed.")
-        
+
         if not self.speedhack_tasks:
             for client in self.hooked_clients:
                 self.speedhack_tasks[client] = asyncio.create_task(self.utils.handle_speedhack(client))
             return
-        
+
         if self.speedhack_tasks:
             for client, speedhack_task in self.speedhack_tasks.items():
                 speedhack_task.cancel()
@@ -730,12 +734,12 @@ class UtilityTab(QWidget):
 
     async def toggle_freecam(self):
         print("[UTILITY] Freecam pressed.")
-        
+
         if not self.freecam_task:
             if self.hooked_clients:
                 self.freecam_task = asyncio.create_task(self.utils.handle_freecam())
                 return
-        
+
         if self.freecam_task:
             self.freecam_task.cancel()
             self.freecam_task = None
@@ -749,7 +753,7 @@ class UtilityTab(QWidget):
 
         if self.freecam_task:
             self.freecam_task.cancel()
-        
+
             camera_pos = await self.freecam_task
 
             self.freecam_task = None
@@ -907,7 +911,7 @@ class ThemesTab(QWidget):
         print(f"[THEMES] Night theme enabled.")
 
         self.window().setStyleSheet(self.themes.night)
-    
+
     def enable_celestia_theme(self):
         print(f"[THEMES] Celestia theme enabled.")
 
@@ -982,7 +986,7 @@ class MainWindow(QWidget):
 
         left_layout.addWidget(donation_link_label)
         left_layout.addWidget(merc_services_label)
-        
+
         footers_layout.addLayout(left_layout)
         footers_layout.addStretch()
 
@@ -991,7 +995,7 @@ class MainWindow(QWidget):
         layout.addLayout(footers_layout)
 
         self.start_keybinds()
-        
+
     def start_keybinds(self):
         def run_threadsafe(coroutine):
             asyncio.run_coroutine_threadsafe(coroutine, self.loop)
@@ -1006,6 +1010,32 @@ class MainWindow(QWidget):
 
         for keybind, function in keybinds.items():
             keyboard.add_hotkey(keybind, lambda func=function: run_threadsafe(func()))
+
+class UpdaterDialog(QDialog):
+    def __init__(self, parent: MainWindow = None):
+        super().__init__(parent)
+
+        self.setWindowTitle("Updater")
+        self.setFixedSize(210, 150)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+
+        layout = QVBoxLayout()
+
+        label = QLabel("An update was found...")
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        update_button = QPushButton("Update")
+        update_button.clicked.connect(lambda: trigger_update(tool_dir=os.path.dirname(os.path.abspath(__file__))))
+
+        ok_button = QPushButton("Ignore")
+        ok_button.clicked.connect(self.accept)
+
+        layout.addWidget(label)
+        layout.addWidget(update_button)
+        layout.addWidget(ok_button)
+
+        self.setLayout(layout)
 
 class DisclaimerDialog(QDialog):
     def __init__(self, parent: MainWindow = None):
@@ -1037,9 +1067,11 @@ class DisclaimerDialog(QDialog):
         QDesktopServices.openUrl(QUrl("https://buymeacoffee.com/lxghtend"))
 
 def main():
+    outdated, local, remote = check_for_update()
+
     app = QApplication(sys.argv)
 
-    appid = "lxghtend.cryingsky.tool.1.0"
+    appid = "lxghtend.voraciousvoid.tool.1.0"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
 
     app.setWindowIcon(QIcon("icon.ico"))
@@ -1053,7 +1085,14 @@ def main():
     window.show()
 
     disclaimer = DisclaimerDialog(window)
-    disclaimer.show()
+
+    if outdated:
+        updater = UpdaterDialog(window)
+        updater.finished.connect(disclaimer.show) # shows disclaimer after updater closed
+        updater.show()
+
+    else:
+        disclaimer.show()
 
     with loop:
         loop.run_forever()
