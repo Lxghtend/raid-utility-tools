@@ -6,6 +6,14 @@ A popup will appear when a new update has been released.  Updates can be install
 
 ---
 
+## Privacy & Usage Tracking
+
+This software collects **anonymous usage data** to understand the amount of users. This may include things such as anonymous identifiers, application version, operating system, and usage count.
+
+**No personal information is collected or intentionally stored.** The collected data is used solely for project analytics and developer resumes and is not intended to identify individual users.
+
+---
+
 ## Development Notes
 
 This project took immense effort — the **UI framework** and the systems that run behind the scenes have been rewritten multiple times to ensure stability, usability, and performance.  

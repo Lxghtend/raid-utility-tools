@@ -11,8 +11,9 @@ from PyQt6.QtGui import QIcon, QDesktopServices
 from utils import Utils
 from themes import Themes
 
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "shared"))
 from updater import check_for_update, trigger_update
+from tracking import send_ping
 
 class HooksTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
@@ -1713,15 +1714,15 @@ class MainWindow(QWidget):
         left_layout.setSpacing(0)
 
         donation_link_label = QLabel('<a href="https://www.buymeacoffee.com/lxghtend">Donate, </a>', alignment=Qt.AlignmentFlag.AlignLeft)
-        merc_services_label = QLabel('<a href="https://discord.gg/q8Yc7m6Gnv">Mercenary Services</a>', alignment=Qt.AlignmentFlag.AlignLeft)
+        discord_label = QLabel('<a href="https://discord.gg/2xBeynxstw">Discord</a>', alignment=Qt.AlignmentFlag.AlignLeft)
         credit_label = QLabel('Made by Lxghtend (<a href="https://github.com/Lxghtend">https://github.com/Lxghtend</a>)', alignment=Qt.AlignmentFlag.AlignRight)
 
         donation_link_label.setOpenExternalLinks(True)
-        merc_services_label.setOpenExternalLinks(True)
+        discord_label.setOpenExternalLinks(True)
         credit_label.setOpenExternalLinks(True)
 
         left_layout.addWidget(donation_link_label)
-        left_layout.addWidget(merc_services_label)
+        left_layout.addWidget(discord_label)
 
         footers_layout.addLayout(left_layout)
         footers_layout.addStretch()
@@ -1806,6 +1807,8 @@ def main():
     outdated, local, remote = check_for_update()
 
     app = QApplication(sys.argv)
+
+    send_ping()
 
     appid = "lxghtend.cryingsky.tool.1.0"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
