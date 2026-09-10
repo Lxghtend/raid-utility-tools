@@ -1,0 +1,16 @@
+{
+    "window_bg": "#00775D",
+    "text_color": "#FFFFFF",
+    "label_color": "#FFFFFF",
+    "button_bg": "#009EB3",
+    "button_hover": "#44B8DB",
+    "button_pressed": "#056E97",
+    "button_hover_border": "#8BE4FF",
+    "button_pressed_border": "#045369",
+    "button_text": "#FFFFFF",
+    "button_border": "#FFFFFF",
+    "border_radius": "8px",
+    "font_family": "Calibri",
+    "font_size": "14px",
+    "font_style": "italic"
+}

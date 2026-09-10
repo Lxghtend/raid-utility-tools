@@ -1,10 +1,11 @@
 import os
+import json
 import sys
 import ctypes
 import asyncio
 import keyboard
 from qasync import QEventLoop
-from PyQt6.QtWidgets import QApplication, QLabel, QTabWidget, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QPushButton, QSizePolicy, QCheckBox, QDialog
+from PyQt6.QtWidgets import QApplication, QLabel, QTabWidget, QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QPushButton, QSizePolicy, QCheckBox, QDialog, QMessageBox
 from PyQt6.QtCore import QTimer, Qt, QUrl
 from PyQt6.QtGui import QIcon, QDesktopServices
 
@@ -981,9 +982,37 @@ class ThemesTab(QWidget):
         self.window().setStyleSheet(self.themes.heap)
 
     def enable_custom_theme(self):
-        print(f"[THEMES] Custom theme enabled.")
+        themes_directory = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "..", "themes"
+        )
 
-        self.window().setStyleSheet(self.themes.custom_theme)
+        def handle_select(theme_path):
+            try:
+                with open(theme_path, encoding="utf-8") as theme_file:
+                    theme = json.load(theme_file)
+
+                if not isinstance(theme, dict) or not all(
+                    isinstance(value, str) for value in theme.values()
+                ):
+
+                    raise ValueError("Theme settings must be an object of strings.")
+
+                stylesheet = self.themes.build_stylesheet(theme)
+
+            except (OSError, ValueError, KeyError) as error:
+                QMessageBox.warning(
+                    self.theme_dialog, "Unable to Load Theme", str(error)
+                )
+                return
+
+            self.window().setStyleSheet(stylesheet)
+            self.theme_dialog.close()
+            print(f"[THEMES] {os.path.basename(theme_path)} theme enabled.")
+
+        self.theme_dialog = ThemeDialog(
+            themes_directory, on_select=handle_select, parent=self.window()
+        )
+        self.theme_dialog.show()
 
     def enable_night_theme(self):
         print(f"[THEMES] Night theme enabled.")
@@ -1117,6 +1146,41 @@ class DisclaimerDialog(QDialog):
 
     def open_donate(self):
         QDesktopServices.openUrl(QUrl("https://buymeacoffee.com/lxghtend"))
+
+class ThemeDialog(QDialog):
+    def __init__(self, themes_directory: str, on_select, parent=None):
+        super().__init__(parent)
+
+        self.setWindowTitle("Custom Themes")
+        self.setMinimumWidth(240)
+        self.setWindowModality(Qt.WindowModality.ApplicationModal)
+        self.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
+
+        layout = QVBoxLayout(self)
+
+        try:
+            theme_files = sorted(
+                entry.name for entry in os.scandir(themes_directory)
+                if entry.is_file() and entry.name.lower().endswith(".json")
+            )
+
+        except OSError:
+            theme_files = []
+
+        for theme_file in theme_files:
+            theme_path = os.path.join(themes_directory, theme_file)
+            theme_button = QPushButton(theme_file)
+            theme_button.setMinimumHeight(40)
+
+            theme_button.clicked.connect(
+                lambda checked=False, target=theme_path: on_select(target)
+            )
+
+            layout.addWidget(theme_button)
+
+        if not theme_files:
+            layout.addWidget(QLabel("No JSON theme files found."))
+
 
 class UpdaterDialog(QDialog):
     def __init__(self, parent: MainWindow = None):
