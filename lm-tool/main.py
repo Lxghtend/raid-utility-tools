@@ -622,22 +622,22 @@ class CauldronTab(QWidget):
         # --------------------------------------- #
 
     async def grab_mustache_folder(self):
-        print(f"[TRACY] Grab Mustache Folder pressed.")
+        print(f"[CAULDRON] Grab Mustache Folder pressed.")
 
         await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Mustache"), timeout=10)
 
     async def grab_props_folder(self):
-        print(f"[TRACY] Grab Props Folder pressed.")
+        print(f"[CAULDRON] Grab Props Folder pressed.")
 
         await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Props"), timeout=10)
 
     async def grab_flames_folder(self):
-        print(f"[TRACY] Grab Flames Folder pressed.")
+        print(f"[CAULDRON] Grab Flames Folder pressed.")
 
         await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Flames"), timeout=10)
 
     async def grab_comb_folder(self):
-        print(f"[TRACY] Grab Comb Folder pressed.")
+        print(f"[CAULDRON] Grab Comb Folder pressed.")
 
         await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Comb"), timeout=10)
 
