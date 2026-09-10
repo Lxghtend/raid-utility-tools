@@ -1,5 +1,7 @@
 # Raid Utility Tools
 
+## [Join the discord community...](https://discord.gg/2xBeynxstw)
+
 A collection of utility tools designed to assist with different **Wizard101 raid instances**.  
 Each tool provides quality-of-life features, shortcuts, and client utilities for more efficient raiding.
 A popup will appear when a new update has been released.  Updates can be installed with only one click.
@@ -59,6 +61,14 @@ Utility tool for the **Ghastly Conspiracy** raid.
 - Chest utilities  
 - Tracy utilities  
 - Cauldron utilities  
+
+---
+
+### 🔹 **ms-tool**  
+Utility tool for the **Blighted Veil** raid.  
+**Raid-specific features:**  
+- Key utilities
+- Dryad utilities
 
 ---
 
@@ -167,6 +177,9 @@ python pl-tool/main.py
 
 # Ghastly Conspiracy Raid Tool
 python lm-tool/main.py
+
+# Blighted Veil Raid Tool
+python ms-tool/main.py
 ```
 
 ---
