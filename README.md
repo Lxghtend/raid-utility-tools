@@ -109,15 +109,12 @@ toggle_auto_dialogue = F7
 ## Custom Theme Configuration
 
 All tools support user-defined themes to customize the look and feel of the interface.  
-Themes can be configured by editing the **`custom_theme`** dictionary inside the tool’s **`themes.py`** file.
+Themes can be configured by editing the **`default.json`** file inside the **`themes`** directory.
 
 Example (Default Custom Theme):
 
-```python
-# =============================
-# CUSTOM THEME CONFIGURATION
-# =============================
-custom_theme = {
+```json
+{
     "window_bg": "#00775D",             # Main window background
     "text_color": "#FFFFFF",            # Default text color
     "label_color": "#FFFFFF",           # Label text color
