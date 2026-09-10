@@ -16,7 +16,7 @@ import requests
 from platformdirs import user_data_dir
 
 APP_NAME = "RaidTools"
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.1.0"
 TRACKER_URL = "https://tracker.lxghtend.xyz/ping"
 
 CONFIG_DIR = Path(user_data_dir(APP_NAME))
