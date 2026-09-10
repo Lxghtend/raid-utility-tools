@@ -25,19 +25,19 @@ class Themes():
         self.raid = """
             /* ==============================
             Raid Theme - PyQt6
-            Mooshu-inspired sakura pink palette
-            Black ink outlines and calligraphic serif type
+            Gloomy Mooshu: charcoal shadows, crimson wood, violet lanterns
+            Black ink outlines and pale parchment text
             ============================== */
 
             QWidget {
-                background-color: #604932;
-                color: #24111B;
+                background-color: #171419;
+                color: #E8DEE2;
                 font-family: "Georgia", "Times New Roman", serif;
                 font-size: 14px;
             }
 
             QGroupBox {
-                background-color: #604932;
+                background-color: #231B23;
                 border: 2px solid #000000;
                 border-radius: 8px;
                 margin-top: 12px;
@@ -45,53 +45,55 @@ class Themes():
                 font-weight: bold;
             }
             QGroupBox::title {
+                color: #D5B6CC;
                 subcontrol-origin: margin;
                 left: 10px;
                 padding: 0 4px;
             }
 
             QPushButton {
-                background-color: #E9A1BF;
-                color: #24111B;
+                background-color: #51282F;
+                color: #E8DEE2;
                 border: 2px solid #000000;
                 border-radius: 8px;
                 padding: 6px 12px;
                 font-weight: bold;
             }
             QPushButton:hover {
-                background-color: #E9A1BF;
-                border: 2px solid #000000;
+                background-color: #693448;
+                border: 2px solid #9C648E;
             }
             QPushButton:pressed {
-                background-color: #E9A1BF;
+                background-color: #351E2D;
                 border: 2px solid #000000;
                 color: #FFFFFF;
             }
 
             QLabel {
-                color: #24111B;
+                color: #E8DEE2;
+                background-color: transparent;
                 font-family: "Georgia", "Times New Roman", serif;
             }
             QLabel[warning="true"] {
-                color: #E9A1BF;
+                color: #E799A2;
                 font-weight: bold;
             }
 
             QLineEdit {
-                background-color: #E9A1BF;
+                background-color: #1C1820;
                 border: 2px solid #000000;
-                color: #24111B;
+                color: #E8DEE2;
                 padding: 4px;
                 border-radius: 6px;
                 font-family: "Georgia", "Times New Roman", serif;
             }
             QLineEdit:focus {
-                border: 2px solid #E9A1BF;
+                border: 2px solid #9C648E;
             }
 
             QTabBar::tab {
-                background: #E9A1BF;
-                color: #24111B;
+                background: #30222B;
+                color: #CBBBC4;
                 padding: 6px 8px;
                 border: 2px solid #000000;
                 border-bottom: none;
@@ -100,12 +102,12 @@ class Themes():
                 font-family: "Georgia", "Times New Roman", serif;
             }
             QTabBar::tab:selected {
-                background: #E9A1BF;
-                color: #24111B;
-                border-top: 2px solid #000000;
+                background: #51282F;
+                color: #F2E6EF;
+                border-top: 2px solid #9C648E;
             }
             QTabBar::tab:hover {
-                background: #E9A1BF;
+                background: #693448;
             }
             QTabWidget::pane {
                 border: 2px solid #000000;
