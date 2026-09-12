@@ -521,35 +521,39 @@ class PickupsTab(QWidget):
         self.pickups_tab_layout.addWidget(self.pet_group)
 
     async def mana_chest_teleport(self):
-        print(f"[PICKUPS] Mana Chest Teleport pressed.")
+        print(f"[STARS] Mana Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(9956.513671875, 8900.72265625, 120.01296997070312, yaw=2.375)
 
     async def health_chest_teleport(self):
-        print(f"[PICKUPS] Health Chest Teleport pressed.")
+        print(f"[STARS] Health Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(9747.107421875, 17028.455078125, 30.01165771484375, yaw=5.385)
 
     async def speed_chest_teleport(self):
-        print(f"[PICKUPS] Speed Chest Teleport pressed.")
+        print(f"[STARS] Speed Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(16229.8505859375, 26573.478515625, 39.994598388671875, yaw=2.421)
 
     async def star_teleport(self):
-        print(f"[PICKUPS] Star Teleport pressed.")
+        print(f"[STARS] Star Teleport pressed.")
 
         await self.utils.entity_teleport("Raid_PowerSource")
 
     async def grab_star(self):
-        print(f"[PICKUPS] Grab Star pressed.")
+        print(f"[STARS] Grab Star pressed.")
 
         await asyncio.wait_for(self.utils.grab_item("Raid_PowerSource"), timeout=5.0)
 
     async def pet_mound(self):
-        print(f"[PICKUPS] Pet Mound pressed.")
+        print(f"[PET] Pet Mound pressed.")
+
+        await self.utils.entity_teleport("Raid_DirtMound_01")
 
     async def pet_token(self):
-        print(f"[PICKUPS] Pet Token pressed.")
+        print(f"[PET] Pet Token pressed.")
+
+        await self.utils.pet_token_teleport()
 
 class DrumsTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
