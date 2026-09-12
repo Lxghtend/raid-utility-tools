@@ -494,6 +494,9 @@ class PickupsTab(QWidget):
             QSizePolicy.Policy.Preferred,
         )
 
+        #pet_mound_button.setMaximumHeight(50)
+        pet_mound_button.setMinimumHeight(50)
+
         pet_mound_button.clicked.connect(lambda: asyncio.create_task(self.pet_mound()))
 
         self.pet_group_layout.addWidget(pet_mound_button)
@@ -506,6 +509,9 @@ class PickupsTab(QWidget):
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
+
+        #pet_token_button.setMaximumHeight(50)
+        pet_token_button.setMinimumHeight(50)
 
         pet_token_button.clicked.connect(lambda: asyncio.create_task(self.pet_token()))
 
