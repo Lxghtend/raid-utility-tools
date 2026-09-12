@@ -380,15 +380,15 @@ class TeleportsTab(QWidget):
 
         await self.utils.handle_basic_teleport(22491.021, 26035.205, 30.010)
 
-class StarsTab(QWidget):
+class PickupsTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
         super().__init__()
         self.utils = utils
         self.hooked_clients = hooked_clients
 
         # ----- Creating Layout ----- #
-        self.chests_tab_layout = QVBoxLayout()
-        self.setLayout(self.chests_tab_layout)
+        self.pickups_tab_layout = QVBoxLayout()
+        self.setLayout(self.pickups_tab_layout)
         # --------------------------- #
 
         # ----- Creating Chest Group ----- #
@@ -400,6 +400,11 @@ class StarsTab(QWidget):
         self.stars_group = QGroupBox("Stars")
         self.stars_group_layout = QVBoxLayout()
         # -------------------------------- #
+
+        # ----- Creating Pet Group ----- #
+        self.pet_group = QGroupBox("Pet")
+        self.pet_group_layout = QHBoxLayout()
+        # ------------------------------ #
 
         # ----- Mana Chest Button ----- #
         mana_chest_button = QPushButton("Mana Chest Teleport")
@@ -481,36 +486,70 @@ class StarsTab(QWidget):
         self.stars_group_layout.addWidget(grab_star_button)
         # ------------------------------ #
 
+        # ----- Pet Mound Button ----- #
+        pet_mound_button = QPushButton("Pet Mound")
+
+        pet_mound_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+
+        pet_mound_button.clicked.connect(lambda: asyncio.create_task(self.pet_mound()))
+
+        self.pet_group_layout.addWidget(pet_mound_button)
+        # ---------------------------- #
+
+        # ----- Pet Token Button ----- #
+        pet_token_button = QPushButton("Pet Token")
+
+        pet_token_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+
+        pet_token_button.clicked.connect(lambda: asyncio.create_task(self.pet_token()))
+
+        self.pet_group_layout.addWidget(pet_token_button)
+        # ---------------------------- #
+
         self.chests_group.setLayout(self.chests_group_layout)
         self.stars_group.setLayout(self.stars_group_layout)
+        self.pet_group.setLayout(self.pet_group_layout)
 
-        self.chests_tab_layout.addWidget(self.chests_group)
-        self.chests_tab_layout.addWidget(self.stars_group)
+        self.pickups_tab_layout.addWidget(self.chests_group)
+        self.pickups_tab_layout.addWidget(self.stars_group)
+        self.pickups_tab_layout.addWidget(self.pet_group)
 
     async def mana_chest_teleport(self):
-        print(f"[STARS] Mana Chest Teleport pressed.")
+        print(f"[PICKUPS] Mana Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(9956.513671875, 8900.72265625, 120.01296997070312, yaw=2.375)
 
     async def health_chest_teleport(self):
-        print(f"[STARS] Health Chest Teleport pressed.")
+        print(f"[PICKUPS] Health Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(9747.107421875, 17028.455078125, 30.01165771484375, yaw=5.385)
 
     async def speed_chest_teleport(self):
-        print(f"[STARS] Speed Chest Teleport pressed.")
+        print(f"[PICKUPS] Speed Chest Teleport pressed.")
 
         await self.utils.handle_basic_teleport(16229.8505859375, 26573.478515625, 39.994598388671875, yaw=2.421)
 
     async def star_teleport(self):
-        print(f"[STARS] Star Teleport pressed.")
+        print(f"[PICKUPS] Star Teleport pressed.")
 
         await self.utils.entity_teleport("Raid_PowerSource")
 
     async def grab_star(self):
-        print(f"[STARS] Grab Star pressed.")
+        print(f"[PICKUPS] Grab Star pressed.")
 
         await asyncio.wait_for(self.utils.grab_item("Raid_PowerSource"), timeout=5.0)
+
+    async def pet_mound(self):
+        print(f"[PICKUPS] Pet Mound pressed.")
+
+    async def pet_token(self):
+        print(f"[PICKUPS] Pet Token pressed.")
 
 class DrumsTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
@@ -983,7 +1022,7 @@ class MainWindow(QWidget):
         if self.enable_clients_tab:
             self.clients_tab = ClientsTab(self.utils, self.hooked_clients)
         self.teleports_tab = TeleportsTab(self.utils, self.hooked_clients)
-        self.stars_tab = StarsTab(self.utils, self.hooked_clients)
+        self.pickups_tab = PickupsTab(self.utils, self.hooked_clients)
         self.drums_tab = DrumsTab(self.utils, self.hooked_clients)
         self.utility_tab = UtilityTab(self.utils, self.hooked_clients)
         self.themes_tab = ThemesTab(self.themes)
@@ -992,7 +1031,7 @@ class MainWindow(QWidget):
         if self.enable_clients_tab:
             tabs.addTab(self.clients_tab, "Clients")
         tabs.addTab(self.teleports_tab, "Teleports")
-        tabs.addTab(self.stars_tab, "Stars")
+        tabs.addTab(self.pickups_tab, "Pickups")
         tabs.addTab(self.drums_tab, "Drums")
         tabs.addTab(self.utility_tab, "Utility")
         tabs.addTab(self.themes_tab, "Themes")
