@@ -53,7 +53,7 @@ class Utils():
                     window = (await client.root_window.get_windows_with_name('txtTestRealmText'))[0]
 
                     await write_window_rectangle(window, 10, 146, 153, 165)
-                    
+
                     await window.write_maybe_text('HOOKED')
                     await window.write_flags(WindowFlags.visible)
 
@@ -77,7 +77,7 @@ class Utils():
         settings["toggle_freecam"] = self.config_parser.get("Keybinds", "toggle_freecam", fallback="F5")
         settings["handle_freecam_teleport"] = self.config_parser.get("Keybinds", "handle_freecam_teleport", fallback="F6")
         settings["toggle_auto_dialogue"] = self.config_parser.get("Keybinds", "toggle_auto_dialogue", fallback="F7")
-        
+
         return settings
 
     async def is_visible_by_path(self, base_window: Window, path: list[str]):
@@ -93,7 +93,7 @@ class Utils():
                 if found_window := await self.window_from_path(child, path[1:]):
                     return found_window
         return False
-    
+
     def are_xyzs_within_threshold(self, xyz_1 : XYZ, xyz_2 : XYZ, threshold : int = 200):
     # checks if 2 xyz's are within a rough distance threshold of each other. Not actual distance checking, but precision isn't needed for this, this exists to eliminate tiny variations in XYZ when being sent back from a failed port.
         threshold_check = [abs(abs(xyz_1.x) - abs(xyz_2.x)) < threshold, abs(abs(xyz_1.y) - abs(xyz_2.y)) < threshold, abs(abs(xyz_1.z) - abs(xyz_2.z)) < threshold]
@@ -101,7 +101,7 @@ class Utils():
 
     def get_open_clients(self) -> list[Client]:
         self.handler.remove_dead_clients()
-        
+
         clients = self.handler.get_new_clients()
         if not clients:
             clients = self.handler.get_ordered_clients()
@@ -129,7 +129,7 @@ class Utils():
     async def handle_auto_dialogue(self, client: Client):
         try:
             print(f"{client.title} auto dialogue activated.")
-                
+
             while True:
                 if await self.is_visible_by_path(client.root_window, ['WorldView', 'wndDialogMain', 'btnRight']):
                     await client.send_key(Keycode.SPACEBAR)
@@ -137,11 +137,11 @@ class Utils():
 
         except asyncio.CancelledError:
                 print(f"{client.title} auto dialogue deactivated.")
-        
+
     async def handle_speedhack(self, client: Client):
         try:
             print(f"{client.title} speedhack activated.")
-            
+
             while True:
                 await client.client_object.write_speed_multiplier(400)
                 await asyncio.sleep(1)
@@ -209,6 +209,26 @@ class Utils():
             await WorldsCollideTP(client, await entity[0].location())
             print(f"{client.title} teleported to {entity_name}.")
 
+    async def pet_token_teleport(self):
+        client = self.foreground_client
+        if client:
+            entity_names = [
+                "Raid_PET_Coin_Spider",
+                "Raid_PET_Coin_Tree",
+                "Raid_PET_Coin_Crane",
+                "Raid_PET_Coin_Butterfly",
+                "Raid_PET_Coin_Snake",
+            ]
+
+            for entity_name in entity_names:
+                entities = await client.get_base_entities_with_name(entity_name)
+                if entities:
+                    await WorldsCollideTP(client, await entities[0].location())
+                    print(f"{client.title} teleported to {entity_name}.")
+                    return
+
+            print(f"{client.title} did not find a pet token.")
+
     async def grab_item(self, entity_name: str):
         client = self.foreground_client
         if client:
@@ -219,7 +239,7 @@ class Utils():
             if not item:
                 print(f"{client.title} did not find {entity_name}.")
                 return
-            
+
             item_position = await item[0].location()
 
             await WorldsCollideTP(client, item_position)
@@ -292,7 +312,7 @@ class Utils():
                             if target_drum_gid not in current_drum_gids:
                                 break
                             await asyncio.sleep(0.1)
-                            
+
                         print(f"{client.title} activated drum {i + 1}.")
 
                 print(f"[AUTO DRUMS] completed drums.")
