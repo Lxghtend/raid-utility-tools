@@ -462,8 +462,8 @@ class PickupsTab(QWidget):
             QSizePolicy.Policy.Preferred,
         )
 
-        star_teleport_button.setMaximumHeight(100)
-        star_teleport_button.setMinimumHeight(100)
+        star_teleport_button.setMaximumHeight(50)
+        star_teleport_button.setMinimumHeight(50)
 
         star_teleport_button.clicked.connect(lambda: asyncio.create_task(self.star_teleport()))
 
@@ -478,8 +478,8 @@ class PickupsTab(QWidget):
             QSizePolicy.Policy.Preferred,
         )
 
-        grab_star_button.setMaximumHeight(100)
-        grab_star_button.setMinimumHeight(100)
+        grab_star_button.setMaximumHeight(50)
+        grab_star_button.setMinimumHeight(50)
 
         grab_star_button.clicked.connect(lambda: asyncio.create_task(self.grab_star()))
 
