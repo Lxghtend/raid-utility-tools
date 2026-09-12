@@ -655,6 +655,19 @@ class UtilityTab(QWidget):
         self.utility_group_layout.addWidget(self.utility_group)
         # ---------------------------------- #
 
+        # ----- Pull Millispeeder Button ----- #
+        pull_millispeeder_button = QPushButton("Pull Millispeeder")
+
+        pull_millispeeder_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred
+        )
+
+        pull_millispeeder_button.clicked.connect(lambda: asyncio.create_task(self.pull_millispeeder()))
+
+        self.utility_tab_layout.addWidget(pull_millispeeder_button)
+        # ----------------------------------- #
+
         # ----- Auto Dialogue Button ----- #
         auto_dialogue_button = QPushButton("Toggle Auto Dialogue")
 
@@ -750,6 +763,11 @@ class UtilityTab(QWidget):
 
         self.utility_tab_layout.addWidget(copy_position_button)
         # ------------------------------- #
+
+    async def pull_millispeeder(self):
+        print("[UTILITY] Pull Millispeeder pressed.")
+
+        await self.utils.handle_basic_teleport(XYZ(21281.80859375, 25240.236328125, 30.01165771484375))
 
     async def toggle_auto_dialogue(self):
         print("[UTILITY] Auto Dialogue pressed.")
