@@ -1506,6 +1506,73 @@ class EndgameTab(QWidget):
         await self.utils.handle_basic_teleport(-2798.477, 109.727, 204.203) # jz
 
 
+class DrumsTab(QWidget):
+    def __init__(self, utils: Utils, hooked_clients: list):
+        super().__init__()
+        self.utils = utils
+        self.hooked_clients = hooked_clients
+
+        self.auto_drums_task = None
+
+        # ----- Creating Layout ----- #
+        self.drums_group_layout = QVBoxLayout()
+        self.setLayout(self.drums_group_layout)
+        # --------------------------- #
+
+        # ----- Creating Drums Group ----- #
+        self.drums_group = QGroupBox("Drums")
+        self.drums_tab_layout = QHBoxLayout()
+        self.drums_group.setLayout(self.drums_tab_layout)
+        self.drums_group_layout.addWidget(self.drums_group)
+        # -------------------------------- #
+
+        # ----- Drum Teleport Button ----- #
+        drum_teleport_button = QPushButton("Drum Teleport")
+
+        drum_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+        )
+
+        drum_teleport_button.clicked.connect(
+            lambda: asyncio.create_task(self.drum_teleport())
+        )
+
+        self.drums_tab_layout.addWidget(drum_teleport_button)
+        # -------------------------------- #
+
+        # ----- Auto Drums Button ----- #
+        auto_drums_button = QPushButton("Auto Drums")
+
+        auto_drums_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred
+        )
+
+        auto_drums_button.clicked.connect(
+            lambda: asyncio.create_task(self.auto_drums())
+        )
+
+        self.drums_tab_layout.addWidget(auto_drums_button)
+        # ----------------------------- #
+
+    async def drum_teleport(self):
+        print("[DRUMS] Drum Teleport pressed.")
+
+        await self.utils.raid_drum_teleport()
+
+    async def auto_drums(self):
+        print("[DRUMS] Auto Drums pressed.")
+
+        if self.auto_drums_task:
+            self.auto_drums_task.cancel()
+            return
+
+        self.auto_drums_task = asyncio.create_task(self.utils.auto_raid_drums())
+        try:
+            await self.auto_drums_task
+        finally:
+            self.auto_drums_task = None
+
+
 class UtilityTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
         super().__init__()
@@ -1919,6 +1986,7 @@ class MainWindow(QWidget):
         self.dryad_tab = DryadTab(self.utils, self.hooked_clients)
         self.earlygame_tab = EarlygameTab(self.utils, self.hooked_clients)
         self.endgame_tab = EndgameTab(self.utils, self.hooked_clients)
+        self.drums_tab = DrumsTab(self.utils, self.hooked_clients)
         self.utility_tab = UtilityTab(self.utils, self.hooked_clients)
         self.themes_tab = ThemesTab(self.themes)
 
@@ -1929,6 +1997,7 @@ class MainWindow(QWidget):
         tabs.addTab(self.dryad_tab, "Dryads")
         tabs.addTab(self.earlygame_tab, "Earlygame")
         tabs.addTab(self.endgame_tab, "Endgame")
+        tabs.addTab(self.drums_tab, "Drums")
         tabs.addTab(self.utility_tab, "Utility")
         tabs.addTab(self.themes_tab, "Themes")
 

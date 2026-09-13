@@ -12,6 +12,17 @@ from wizwalker.memory.memory_objects.enums import WindowFlags
 
 from worlds_collide import WorldsCollideTP
 
+excluded_drums = [
+    XYZ(-3.070, -900.000, 680.000),
+    XYZ(-126.960, -900.000, 680.000),
+    XYZ(117.797, -900.000, 680.000),
+    XYZ(-249.350, -900.000, 680.000),
+    XYZ(-993.921, -900.000, 680.000),
+    XYZ(-1113.587, -900.000, 680.000),
+    XYZ(-1232.520, -900.000, 680.000),
+    XYZ(-1351.739, -900.000, 679.999),
+]
+
 class Utils():
     def __init__(self):
         self.handler = ClientHandler()
@@ -229,7 +240,7 @@ class Utils():
 
 
     async def get_wisps(self) -> list[list[str, XYZ, DynamicClientObject]]:
-        
+
         # Yoinked shamelessly from Deimos
         def trunc(self, f, n):
             if f > 0:
@@ -245,23 +256,79 @@ class Utils():
             if not entity_list:
                 print(f"{client.title} did not find wisps")
                 return
-            
+
             wisp_data = []
             for i, wisp in enumerate(entity_list):
                 wisp_pos = await wisp.location()
-                
+
                 wisp_pos.x = self.trunc(wisp_pos.x, 0)
                 wisp_pos.y = self.trunc(wisp_pos.y, 0)
                 wisp_pos.z = self.trunc(wisp_pos.z, 0)
-                
+
                 info = list[f"Wisp {i+1}", wisp_pos, wisp]
                 wisp_data.append(info)
 
             return wisp_data
-            
+
     async def wisp_teleport(self, object: DynamicClientObject):
         client = self.foreground_client
         if client:
             wisp_pos = await object.location()
             if wisp_pos:
                 await WorldsCollideTP(client, wisp_pos)
+
+    async def raid_drum_teleport(self):
+        client = self.foreground_client
+        if client:
+            drum_list = await client.get_base_entities_with_name("Raid_LightPad")
+
+            if not drum_list:
+                print(f"{client.title} did not find Raid_LightPad.")
+                return
+
+            filtered_drums = []
+            for drum in drum_list:
+                drum_pos = await drum.location()
+                if not any(self.are_xyzs_within_threshold(drum_pos, excluded) for excluded in excluded_drums):
+                    filtered_drums.append(drum)
+
+            if len(filtered_drums) > 0:
+                drum = filtered_drums[0]
+
+                await client.teleport(await drum.location())
+
+    async def auto_raid_drums(self):
+        client = self.foreground_client
+        if client:
+            try:
+                for i in range(8):
+                    filtered_drums = []
+                    while filtered_drums == []:
+                        drum_list = await client.get_base_entities_with_name("Raid_LightPad")
+                        for drum in drum_list:
+                            drum_pos = await drum.location()
+                            if not any(self.are_xyzs_within_threshold(drum_pos, excluded) for excluded in excluded_drums):
+                                filtered_drums.append(drum)
+                        await asyncio.sleep(0.1)
+
+                    if filtered_drums != []:
+                        target_drum = filtered_drums[0]
+
+                        target_drum_gid = await target_drum.global_id_full()
+
+                        await client.teleport(await drum.location())
+
+                        while True:
+                            current_drums = await client.get_base_entities_with_name("Raid_LightPad")
+                            current_drum_gids = [await drum.global_id_full() for drum in current_drums]
+
+                            if target_drum_gid not in current_drum_gids:
+                                break
+                            await asyncio.sleep(0.1)
+
+                        print(f"{client.title} activated drum {i + 1}.")
+
+                print(f"[AUTO DRUMS] completed drums.")
+
+            except asyncio.CancelledError:
+                print(f"[AUTO DRUMS] cancelled at drum #{i + 1}.")
