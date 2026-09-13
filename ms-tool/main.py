@@ -1468,7 +1468,7 @@ class EndgameTab(QWidget):
     async def binding_buttons(self):
         print(f"[ENDGAME] Binding Buttons pressed.")
 
-        print(f"not yet implemented")
+        await self.utils.binding()
 
     async def time_torch(self):
         print(f"[ENDGAME] Time Torch pressed.")

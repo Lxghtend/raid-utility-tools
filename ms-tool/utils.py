@@ -243,7 +243,6 @@ class Utils():
             print(f"{client.title} grabbed {entity_name}.")
 
 
-
     async def get_wisps(self) -> list[list[str, XYZ, DynamicClientObject]]:
 
         # Yoinked shamelessly from Deimos
@@ -337,3 +336,16 @@ class Utils():
 
             except asyncio.CancelledError:
                 print(f"[AUTO DRUMS] cancelled at drum #{i + 1}.")
+
+    async def binding(self, client: Client):
+        client = self.foreground_client
+        if client:
+            entities = await client.get_base_entities_with_name("Raid_MS_School_Button")
+
+            if not entities:
+                print(f"{client.title} did not find Raid_MS_School_Button.")
+                return
+
+            for entity in entities:
+                template_id = await entity.template_id_full()
+                print(f"Variant Template ID: {template_id}")
