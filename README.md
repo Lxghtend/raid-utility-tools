@@ -142,6 +142,7 @@ Method 1 (Recommended):
 
 ```bash
 git clone https://github.com/lxghtend/raid-utility-tools.git
+cd raid-utility-tools
 uv venv
 uv pip install -r az-tool\requirements.txt
 ```
@@ -150,6 +151,7 @@ Method 2:
 
 ```bash
 git clone https://github.com/lxghtend/raid-utility-tools.git
+cd raid-utility-tools
 pip install -r az-tool\requirements.txt
 ```
 **Note: The built-in updater only works if the tools were installed via git**
