@@ -337,7 +337,7 @@ class Utils():
             except asyncio.CancelledError:
                 print(f"[AUTO DRUMS] cancelled at drum #{i + 1}.")
 
-    async def binding(self, client: Client):
+    async def binding(self):
         client = self.foreground_client
         if client:
             entities = await client.get_base_entities_with_name("Raid_MS_School_Button")
