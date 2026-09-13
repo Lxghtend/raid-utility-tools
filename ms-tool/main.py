@@ -1498,7 +1498,7 @@ class EndgameTab(QWidget):
     async def elemental_urning_teleport(self):
         print(f"[URNING] Elemental Urning pressed.")
 
-        await self.utils.handle_basic_teleport(-2972.296, 90.060, 204.203) # jz
+        await self.utils.handle_basic_teleport(1904.05859375, -4767.22900390625, 204.20339965820312) # laevs
 
     async def spirit_urning_teleport(self):
         print(f"[URNING] Spirit Urning pressed.")
