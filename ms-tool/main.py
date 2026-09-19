@@ -1473,7 +1473,7 @@ class EndgameTab(QWidget):
     async def time_torch(self):
         print(f"[ENDGAME] Time Torch pressed.")
 
-        await self.utils.handle_basic_teleport(-55362.516,  -3990.939,  -5028.671) # jz
+        await self.utils.entity_teleport("Raid_MS_TimeTorch")
 
     async def north_pagoda_teleport(self):
         print(f"[PAGODA] North Pagoda pressed.")
