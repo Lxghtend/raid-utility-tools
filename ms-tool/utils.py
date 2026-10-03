@@ -207,6 +207,41 @@ class Utils():
             await WorldsCollideTP(client, await entity[0].location())
             print(f"{client.title} teleported to {entity_name}.")
 
+    async def wait_for_range(self, client: Client):
+        while True:
+            if await self.is_visible_by_path(client.root_window, ['WorldView', 'NPCRangeWin']):
+                return
+            await asyncio.sleep(0.1)
+
+    async def binding_buttons(self, layout: str = "straight"):
+        button_sets = {
+            "straight": (
+                ((935.2365112304688, -997.5791625976562, 327.5176086425781), 4.160),
+                ((1369.3870849609375, -3018.9912109375, 327.517578125), 5.194),
+                ((-245.64674377441406, -4401.7724609375, 327.517578125), 6.179),
+            ),
+            "alt_one": (
+                ((943.3026123046875, -988.5377197265625, 327.5176086425781), 4.160),
+                ((-200.7386474609375, -4449.11767578125, 327.517578125), 6.259),
+                ((-2562.184814453125, -1634.2911376953125, 327.517578125), 2.210),
+            ),
+            "alt_two": (
+                ((-1005.826, -242.829, 327.517), 3.131),
+                ((1422.570, -3035.672, 327.517), 4.774),
+                ((-2239.302, -3732.226, 327.517), 1.021),
+            ),
+        }
+
+        buttons = button_sets[layout]
+
+        client = self.foreground_client
+        if client:
+            for position, yaw in buttons:
+                await client.teleport(XYZ(*position), yaw)
+                await self.wait_for_range(client)
+                await asyncio.sleep(0.8)
+                await client.send_key(Keycode.X)
+
     async def grab_item(self, entity_name: str):
         client = self.foreground_client
         if client:

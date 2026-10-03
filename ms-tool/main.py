@@ -1299,9 +1299,13 @@ class EndgameTab(QWidget):
         self.general_group = QGroupBox("General")
         self.general_group_layout = QVBoxLayout()
 
-        self.binding_buttons_row = QHBoxLayout()
         self.pagoda_buttons_row = QHBoxLayout()
         # ---------------------------------- #
+
+        # ----- Creating Binding Buttons Group ----- #
+        self.binding_buttons_group = QGroupBox("Binding Buttons")
+        self.binding_buttons_group_layout = QHBoxLayout()
+        # ------------------------------------------ #
 
         # ----- Creating Urnings Group ----- #
         self.urnings_group = QGroupBox("Urnings")
@@ -1313,23 +1317,69 @@ class EndgameTab(QWidget):
         self.time_torch_group_layout = QHBoxLayout()
         # ------------------------------------- #
 
-        # ----- Binding Buttons Button ----- #
-        binding_buttons_button = QPushButton("Binding Buttons")
+        # ----- N-E-SW Binding Buttons Button ----- #
+        north_east_southwest_binding_buttons_button = QPushButton("N-E-SW")
 
-        binding_buttons_button.setSizePolicy(
+        north_east_southwest_binding_buttons_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Preferred,
         )
 
-        binding_buttons_button.setMaximumHeight(50)
-        binding_buttons_button.setMinimumHeight(50)
+        north_east_southwest_binding_buttons_button.setMaximumHeight(50)
+        north_east_southwest_binding_buttons_button.setMinimumHeight(50)
 
-        binding_buttons_button.clicked.connect(
-            lambda: asyncio.create_task(self.binding_buttons())
+        north_east_southwest_binding_buttons_button.clicked.connect(
+            lambda: asyncio.create_task(self.binding_buttons(layout="alt_two"))
         )
 
-        self.binding_buttons_row.addWidget(binding_buttons_button)
-        # ---------------------------------- #
+        self.binding_buttons_group_layout.addWidget(north_east_southwest_binding_buttons_button)
+        # ------------------------------------------ #
+
+        # ----- NE-S-W Binding Buttons Button ----- #
+        northeast_south_west_binding_buttons_button = QPushButton("NE-S-W")
+
+        northeast_south_west_binding_buttons_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+
+        northeast_south_west_binding_buttons_button.setMaximumHeight(50)
+        northeast_south_west_binding_buttons_button.setMinimumHeight(50)
+
+        northeast_south_west_binding_buttons_button.clicked.connect(
+            lambda: asyncio.create_task(self.binding_buttons(layout="alt_one"))
+        )
+
+        self.binding_buttons_group_layout.addWidget(northeast_south_west_binding_buttons_button)
+        # ------------------------------------------ #
+
+        # ----- Straight Binding Buttons Button ----- #
+        straight_binding_buttons_button = QPushButton("Straight")
+
+        straight_binding_buttons_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred,
+        )
+
+        straight_binding_buttons_button.setMaximumHeight(50)
+        straight_binding_buttons_button.setMinimumHeight(50)
+
+        straight_binding_buttons_button.clicked.connect(
+            lambda: asyncio.create_task(self.binding_buttons(layout="straight"))
+        )
+
+        self.binding_buttons_group_layout.addWidget(straight_binding_buttons_button)
+        # ------------------------------------------ #
+
+        # ----- Binding Buttons Help Button ----- #
+        binding_buttons_help_button = QPushButton("?")
+        binding_buttons_help_button.setFixedSize(50, 50)
+        binding_buttons_help_button.setStyleSheet("padding: 0;")
+        binding_buttons_help_button.setToolTip("How Binding Buttons work")
+        binding_buttons_help_button.clicked.connect(self.binding_buttons_help)
+
+        self.binding_buttons_group_layout.addWidget(binding_buttons_help_button)
+        # --------------------------------------- #
 
         # ----- North Pagoda Button ----- #
         north_pagoda_teleport_button = QPushButton("North Pagoda")
@@ -1403,7 +1453,6 @@ class EndgameTab(QWidget):
         self.pagoda_buttons_row.addWidget(west_pagoda_teleport_button)
         # ------------------------------ #
 
-        self.general_group_layout.addLayout(self.binding_buttons_row)
         self.general_group_layout.addLayout(self.pagoda_buttons_row)
 
         # ----- Elemental Urning Button ----- #
@@ -1458,17 +1507,36 @@ class EndgameTab(QWidget):
         # ----------------------------- #
 
         self.general_group.setLayout(self.general_group_layout)
+        self.binding_buttons_group.setLayout(self.binding_buttons_group_layout)
         self.urnings_group.setLayout(self.urnings_group_layout)
         self.time_torch_group.setLayout(self.time_torch_group_layout)
 
         self.endgame_tab_layout.addWidget(self.general_group)
+        self.endgame_tab_layout.addWidget(self.binding_buttons_group)
         self.endgame_tab_layout.addWidget(self.time_torch_group)
         self.endgame_tab_layout.addWidget(self.urnings_group, 1)
 
-    async def binding_buttons(self):
-        print(f"[ENDGAME] Binding Buttons pressed.")
+    def binding_buttons_help(self):
+        QMessageBox.information(
+            self,
+            "Binding Buttons",
+            "Choose the route that matches the current binding button layout.\n\n"
+            "N-E-SW: North, East, then Southwest.\n"
+            "NE-S-W: Northeast, South, then West.\n"
+            "Straight: Three consecutive buttons in the grouped layout.\n\n"
+            "Each route teleports you to three buttons, faces them, and presses X.\n\n"
+            "Elemental schools: Storm, Fire, and Ice.\n"
+            "Spirit schools: Life, Death, and Myth.\n"
+            "Choose a route containing all three schools from one group.\n\n"
+            "The layout randomizes when the boss doors are triggered and every "
+            "30 seconds afterward. Check the current layout before choosing a route.",
+        )
 
-        print(f"not yet implemented")
+    async def binding_buttons(self, layout: str = "straight"):
+        layout_name = layout.title()
+        print(f"[ENDGAME] {layout_name} Binding Buttons pressed.")
+
+        await self.utils.binding_buttons(layout=layout)
 
     async def time_torch(self):
         print(f"[ENDGAME] Time Torch pressed.")
