@@ -642,6 +642,111 @@ class CauldronTab(QWidget):
 
         await asyncio.wait_for(self.utils.grab_item("Raid_LM_Folder_Comb"), timeout=10)
 
+class MiscTab(QWidget):
+    def __init__(self, utils: Utils, hooked_clients: list):
+        super().__init__()
+        self.utils = utils
+        self.hooked_clients = hooked_clients
+
+        # ----- Creating Layout ----- #
+        self.misc_group_layout = QVBoxLayout()
+        self.setLayout(self.misc_group_layout)
+        # --------------------------- #
+
+        # ----- Creating Teleports Group ----- #
+        self.teleports_group = QGroupBox("Teleports")
+        self.misc_tab_layout = QVBoxLayout()
+
+        #self.misc_tab_layout.addStretch()
+
+        self.teleports_group.setLayout(self.misc_tab_layout)
+        self.misc_group_layout.addWidget(self.teleports_group)
+        # ------------------------------------ #
+
+        # ----- End of Lazer Maze Teleport Button ----- #
+        end_of_lazer_maze_teleport_button = QPushButton("End of Lazer Maze")
+
+        end_of_lazer_maze_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred
+        )
+
+        #end_of_lazer_maze_teleport_button.setMaximumHeight(50)
+        #end_of_lazer_maze_teleport_button.setMinimumHeight(50)
+
+        end_of_lazer_maze_teleport_button.clicked.connect(lambda: asyncio.create_task(self.end_of_lazer_maze_teleport()))
+
+        self.misc_tab_layout.addWidget(end_of_lazer_maze_teleport_button)
+        # --------------------------------------------- #
+
+        # ----- Left Mana Bomb Teleport Button ----- #
+        left_mana_bomb_teleport_button = QPushButton("Left Mana Bomb")
+
+        left_mana_bomb_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred
+        )
+
+        #left_mana_bomb_teleport_button.setMaximumHeight(50)
+        #left_mana_bomb_teleport_button.setMinimumHeight(50)
+
+        left_mana_bomb_teleport_button.clicked.connect(lambda: asyncio.create_task(self.left_mana_bomb_teleport()))
+
+        self.misc_tab_layout.addWidget(left_mana_bomb_teleport_button)
+        # ------------------------------------------ #
+
+        # ----- Right Mana Bomb Teleport Button ----- #
+        right_mana_bomb_teleport_button = QPushButton("Right Mana Bomb")
+
+        right_mana_bomb_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred
+        )
+
+        #right_mana_bomb_teleport_button.setMaximumHeight(50)
+        #right_mana_bomb_teleport_button.setMinimumHeight(50)
+
+        right_mana_bomb_teleport_button.clicked.connect(lambda: asyncio.create_task(self.right_mana_bomb_teleport()))
+
+        self.misc_tab_layout.addWidget(right_mana_bomb_teleport_button)
+        # ------------------------------------------- #
+
+        # ----- Ghastly Stairs Teleport Button ----- #
+        ghastly_stairs_teleport_button = QPushButton("Ghastly Stairs")
+
+        ghastly_stairs_teleport_button.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Preferred
+        )
+
+        #ghastly_stairs_teleport_button.setMaximumHeight(50)
+        #ghastly_stairs_teleport_button.setMinimumHeight(50)
+
+        ghastly_stairs_teleport_button.clicked.connect(lambda: asyncio.create_task(self.ghastly_stairs_teleport()))
+
+        self.misc_tab_layout.addWidget(ghastly_stairs_teleport_button)
+        # ------------------------------------------ #
+
+    async def end_of_lazer_maze_teleport(self):
+        print(f"[MISC] End of Lazer Maze Teleport pressed.")
+
+        await self.utils.handle_basic_teleport(-9961.2314453125, 4451.08203125, 750.4794921875)
+
+    async def left_mana_bomb_teleport(self):
+        print(f"[MISC] Left Mana Bomb Teleport pressed.")
+
+        await self.utils.handle_basic_teleport(-1774.7969970703125, 10378.7939453125, 750.467041015625)
+
+    async def right_mana_bomb_teleport(self):
+        print(f"[MISC] Right Mana Bomb Teleport pressed.")
+
+        await self.utils.handle_basic_teleport(507.4201354980469, 10234.392578125, 750.4450073242188)
+
+    async def ghastly_stairs_teleport(self):
+        print(f"[MISC] Ghastly Stairs Teleport pressed.")
+
+        await self.utils.handle_basic_teleport(-838.9034423828125, -1080.3607177734375, -537.8377685546875)
+
 class UtilityTab(QWidget):
     def __init__(self, utils: Utils, hooked_clients: list):
         super().__init__()
@@ -1062,6 +1167,7 @@ class MainWindow(QWidget):
         self.chests_tab = ChestsTab(self.utils, self.hooked_clients)
         self.tracy_tab = TracyTab(self.utils, self.hooked_clients)
         self.cauldron_tab = CauldronTab(self.utils, self.hooked_clients)
+        self.misc_tab = MiscTab(self.utils, self.hooked_clients)
         self.utility_tab = UtilityTab(self.utils, self.hooked_clients)
         self.themes_tab = ThemesTab(self.themes)
 
@@ -1071,6 +1177,7 @@ class MainWindow(QWidget):
         tabs.addTab(self.chests_tab, "Chests")
         tabs.addTab(self.tracy_tab, "Dog Tracy")
         tabs.addTab(self.cauldron_tab, "Cauldrons")
+        tabs.addTab(self.misc_tab, "Misc")
         tabs.addTab(self.utility_tab, "Utility")
         tabs.addTab(self.themes_tab, "Themes")
 
