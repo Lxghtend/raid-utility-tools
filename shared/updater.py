@@ -3,7 +3,7 @@ import sys
 import subprocess
 
 repo_path = os.path.dirname(os.path.abspath(__file__))
- 
+
 def check_for_update():
     """
     Compares local HEAD against the remote's latest commit on the current branch.
@@ -13,24 +13,28 @@ def check_for_update():
     """
     print("Checking for update...")
     try:
+        try:
         # make sure we know what the remote actually has, without touching local files
-        subprocess.run(
-            ["git", "fetch"],
-            cwd=repo_path, check=True, capture_output=True, text=True, timeout=10
-        )
- 
+            subprocess.run(
+                ["git", "fetch"],
+                cwd=repo_path, check=True, capture_output=True, text=True, timeout=10
+            )
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("Update check skipped: Did you install via git?")
+            return (False, "", "")
+
         local = subprocess.run(
             ["git", "rev-parse", "HEAD"],
             cwd=repo_path, check=True, capture_output=True, text=True
         ).stdout.strip()
- 
+
         remote = subprocess.run(
             ["git", "rev-parse", "@{u}"],
             cwd=repo_path, check=True, capture_output=True, text=True
         ).stdout.strip()
- 
+
         return ((local != remote), local[:7], remote[:7])
- 
+
     except Exception as e:
         print(f"Update check skipped: {e}")
         return (False, "", "")
