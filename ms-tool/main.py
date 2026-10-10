@@ -459,19 +459,19 @@ class KeysTab(QWidget):
         self.doors_row_bottom.addWidget(trickster_oni_button)
         # ----------------------------- #
 
-        # ----- Primal Oni Button ----- #
-        primal_oni_button = QPushButton("Primal Oni")
+        # ----- Primeval Oni Button ----- #
+        Primeval_oni_button = QPushButton("Primeval Oni")
 
-        primal_oni_button.setSizePolicy(
+        Primeval_oni_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding,
         )
 
-        primal_oni_button.clicked.connect(
-            lambda: asyncio.create_task(self.primal_oni_teleport())
+        Primeval_oni_button.clicked.connect(
+            lambda: asyncio.create_task(self.Primeval_oni_teleport())
         )
 
-        self.doors_row_bottom.addWidget(primal_oni_button)
+        self.doors_row_bottom.addWidget(Primeval_oni_button)
         # ----------------------------- #
 
         self.keys_group.setLayout(self.keys_group_layout)
@@ -520,8 +520,8 @@ class KeysTab(QWidget):
 
         await self.utils.handle_basic_teleport(52600.0, -5950.0, -10625.967)  # ratul
 
-    async def primal_oni_teleport(self):
-        print(f"[ONI] Primal Oni Teleport pressed.")
+    async def Primeval_oni_teleport(self):
+        print(f"[ONI] Primeval Oni Teleport pressed.")
 
         await self.utils.handle_basic_teleport(55500.0, -750.0, -10625.966)  # ratul
 
@@ -639,19 +639,19 @@ class DryadTab(QWidget):
         self.right_seeds_column.addWidget(trickster_seed_button)
         # --------------------------------- #
 
-        # ----- Primal Seed Button ----- #
-        primal_seed_button = QPushButton("Primal Seed")
+        # ----- Primeval Seed Button ----- #
+        Primeval_seed_button = QPushButton("Primeval Seed")
 
-        primal_seed_button.setSizePolicy(
+        Primeval_seed_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding,
         )
 
-        primal_seed_button.clicked.connect(
-            lambda: asyncio.create_task(self.primal_seed_teleport())
+        Primeval_seed_button.clicked.connect(
+            lambda: asyncio.create_task(self.Primeval_seed_teleport())
         )
 
-        self.right_seeds_column.addWidget(primal_seed_button)
+        self.right_seeds_column.addWidget(Primeval_seed_button)
         # ------------------------------ #
 
         # ----- Infernal Dryad Teleport Button ----- #
@@ -729,19 +729,19 @@ class DryadTab(QWidget):
         self.right_dryads_column.addWidget(trickster_dryad_teleport_button)
         # ------------------------------------------- #
 
-        # ----- Primal Dryad Teleport Button ----- #
-        primal_dryad_teleport_button = QPushButton("Primal Dryad Teleport")
+        # ----- Primeval Dryad Teleport Button ----- #
+        Primeval_dryad_teleport_button = QPushButton("Primeval Dryad Teleport")
 
-        primal_dryad_teleport_button.setSizePolicy(
+        Primeval_dryad_teleport_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding,
         )
 
-        primal_dryad_teleport_button.clicked.connect(
-            lambda: asyncio.create_task(self.primal_dryad_teleport())
+        Primeval_dryad_teleport_button.clicked.connect(
+            lambda: asyncio.create_task(self.Primeval_dryad_teleport())
         )
 
-        self.right_dryads_column.addWidget(primal_dryad_teleport_button)
+        self.right_dryads_column.addWidget(Primeval_dryad_teleport_button)
         # ---------------------------------------- #
 
         # ----- Giver of the Time Torch Button ----- #
@@ -822,8 +822,8 @@ class DryadTab(QWidget):
 
         await self.utils.entity_teleport("GR_MS_Plant_04_Seed")
 
-    async def primal_seed_teleport(self):
-        print(f"[SEED] Primal Seed Teleport pressed.")
+    async def Primeval_seed_teleport(self):
+        print(f"[SEED] Primeval Seed Teleport pressed.")
 
         await self.utils.entity_teleport("GR_MS_Plant_05_Seed")
 
@@ -852,8 +852,8 @@ class DryadTab(QWidget):
 
         await self.utils.handle_basic_teleport(-55400.0, -7000.0, -5122.858) # ratul
 
-    async def primal_dryad_teleport(self):
-        print(f"[DRYAD] Primal Dryad Teleport pressed.")
+    async def Primeval_dryad_teleport(self):
+        print(f"[DRYAD] Primeval Dryad Teleport pressed.")
 
         await self.utils.handle_basic_teleport(-51500.0, -350.0, -5122.854) # ratul
 
@@ -1571,7 +1571,7 @@ class EndgameTab(QWidget):
     async def spirit_urning_teleport(self):
         print(f"[URNING] Spirit Urning pressed.")
 
-        await self.utils.handle_basic_teleport(-2798.477, 109.727, 204.203) # jz
+        await self.utils.handle_basic_teleport(XYZ(-2975.010009765625, 177.9241943359375, 204.203369140625)) # laevs
 
 
 class DrumsTab(QWidget):
