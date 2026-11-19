@@ -1,5 +1,8 @@
 # Raid Utility Tools
 
+![Users](https://img.shields.io/endpoint?url=https%3A%2F%2Ftracker.lxghtend.xyz%2Fbadge%3Fmetric%3Dusers&style=flat-square)
+![Raid Sessions](https://img.shields.io/endpoint?url=https%3A%2F%2Ftracker.lxghtend.xyz%2Fbadge%3Fmetric%3Dsessions&style=flat-square)
+
 ## [Join the discord community...](https://discord.gg/2xBeynxstw)
 
 A collection of utility tools designed to assist with different **Wizard101 raid instances**.  
